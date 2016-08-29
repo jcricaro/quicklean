@@ -123,4 +123,14 @@ class Job extends Model
     {
         return $query->where('status', 'pending');
     }
+
+    public function getStatusAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
+    public function machine()
+    {
+        return $this->belongsTo('App\Machine', 'machine_id');
+    }
 }

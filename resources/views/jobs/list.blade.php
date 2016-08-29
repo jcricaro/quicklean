@@ -15,10 +15,7 @@
                                     Id
                                 </th>
                                 <th>
-                                    Name
-                                </th>
-                                <th>
-                                    Phone
+                                    Customer
                                 </th>
                                 <th>
                                     Service Type
@@ -44,6 +41,12 @@
                                 <th>
                                     Services
                                 </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Machine
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,9 +57,8 @@
                                  </td>
                                  <td>
                                     {{ $job->name }}
-                                 </td>
-                                 <td>
-                                     {{ $job->phone }}
+                                    <br/>
+                                    {{ $job->phone }}
                                  </td>
                                  <td>
                                      {{ $job->service_type }}
@@ -88,6 +90,12 @@
                                          <li>Fold</li>
                                          @endif
                                      </ul>
+                                 </td>
+                                 <td>
+                                     {{ $job->status }}
+                                 </td>
+                                 <td>
+                                     {{ $job->machine->name }}
                                  </td>
                              </tr>
                             @endforeach

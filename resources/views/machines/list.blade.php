@@ -26,7 +26,7 @@
 									{{ $machine->type }}
 								</td>
 								<td>
-									
+									{{ $machine->availability }}
 								</td>
 								<td>
 									<a href="">Delete</a>

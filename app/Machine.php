@@ -10,4 +10,14 @@ class Machine extends Model
     {
     	return ucfirst($value);
     }
+
+    public function getAvailabilityAttribute()
+    {
+    	return $this->jobs()->approved()->count() . ' Jobs Pending';
+    }
+
+    public function jobs()
+    {
+    	return $this->hasMany('App\Job', 'machine_id');
+    }
 }

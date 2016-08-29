@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Job;
 use Faker\Factory as Faker;
+use App\Machine;
 
 class JobsTableSeeder extends Seeder
 {
@@ -17,7 +18,10 @@ class JobsTableSeeder extends Seeder
 
         $faker = Faker::create();
 
+        $machines = Machine::all()->pluck('id')->toArray();
+
         foreach( range(1, 30) as $index) {
+
             Job::create([
                 'name' => $faker->name,
                 'phone' => $faker->phoneNumber,
@@ -29,7 +33,9 @@ class JobsTableSeeder extends Seeder
                 'bleach' => $faker->randomElement(['colorsafe', 'original', 'i_have_one']),
                 'fabric_conditioner' => $faker->randomElement(['downy', 'i_have_one']),
                 'is_press' => $faker->boolean,
-                'is_fold' => $faker->boolean
+                'is_fold' => $faker->boolean,
+                'status' => 'pending',
+                'machine_id' => $faker->randomElement($machines)
             ]);
         }
     }
