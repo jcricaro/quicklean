@@ -13,7 +13,7 @@ class Machine extends Model
 
     public function getAvailabilityAttribute()
     {
-    	return $this->jobs()->approved()->count() . ' Jobs Pending';
+    	return $this->jobs()->pending()->count() . ' Jobs Pending';
     }
 
     public function jobs()
