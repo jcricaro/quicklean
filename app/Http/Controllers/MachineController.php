@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\{
+    Http\Requests\Machine\AddMachineRequest,
     Http\Requests,
     Machine
 };
@@ -18,30 +19,24 @@ class MachineController extends Controller
      */
     public function index(Machine $machine)
     {
-        $machines = $machine->paginate();
+        $machines = $machine->orderBy('id', 'desc')->paginate();
 
         return view('machines.list')->with('machines', $machines);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Machine\AddMachineRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddMachineRequest $request, Machine $machine)
     {
-        //
+        $machine->create($request->only(['name', 'type']));
+
+        $request->session()->flash('success', 'Machine created!');
+
+        return redirect('/machines');
     }
 
     /**

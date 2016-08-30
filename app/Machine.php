@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Machine extends Model
 {
+    protected $fillable = [
+        'name',
+        'type'
+    ];
+
     public function getTypeAttribute($value)
     {
     	return ucfirst($value);

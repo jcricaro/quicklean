@@ -5,6 +5,42 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
+				<div class="panel-heading">
+					Add Machine
+				</div>
+				<div class="panel-body">
+					@foreach($errors->all() as $error)
+					<div class="alert alert-danger">
+						{{ $error }}
+					</div>
+					@endforeach
+
+					<form action="{{ url('/machines') }}" method="POSt">
+						<div class="form-group">
+							<label for="name">
+								Name
+							</label>
+							<input type="text" name="name" placeholder="Name" class="form-control">
+						</div>
+
+						<div class="form-group">
+							<label for="type">
+								Type
+							</label>
+							<select name="type" id="" class="form-control">
+								<option value="washer">Washer</option>
+								<option value="dryer">Dryer</option>
+							</select>
+						</div>
+
+						{{ csrf_field() }}
+
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
 				<div class="panel-heading">Machines</div>
 				<div class="panel-body">
 					<table class="table table-striped">

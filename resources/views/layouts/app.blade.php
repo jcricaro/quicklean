@@ -83,6 +83,17 @@
         </div>
     </nav>
 
+    @if( session('success') )
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert">
+                    {{ session('success') }}
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
     @yield('content')
 
     <!-- Scripts -->
