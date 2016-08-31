@@ -40,6 +40,10 @@ class Job extends Model
         'is_fold' => 'boolean'
     ];
 
+    protected $dates = [
+        'approved_at'
+    ];
+
     /**
      * @param $value
      * @return string

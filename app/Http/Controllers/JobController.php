@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Job;
+use Carbon\Carbon;
 
 class JobController extends Controller
 {
@@ -24,6 +25,7 @@ class JobController extends Controller
     public function approve(Job $job, Request $request)
     {
         $job->status = 'approved';
+        $job->approved_at = Carbon::now();
         $job->save();
 
         return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job approved');
