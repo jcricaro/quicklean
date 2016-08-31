@@ -21,6 +21,8 @@ Route::get('/home', 'HomeController@index');
 
 Route::group(['middleware' => 'auth'], function()
 {
+	Route::put('/jobs/approve/{jobs}', 'JobController@approve');
+	Route::put('/jobs/decline/{jobs}', 'JobController@decline');
 	Route::resource('/jobs', 'JobController');
 	Route::resource('/machines', 'MachineController');
 });

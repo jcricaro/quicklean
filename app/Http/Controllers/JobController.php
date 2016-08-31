@@ -14,11 +14,27 @@ class JobController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Job $job)
+    public function index(Job $job, Request $request)
     {
-        $jobs = $job->paginate();
+        $jobs = $job->orderBy('id', 'desc')->paginate();
 
         return view('jobs.list')->with('jobs', $jobs);
+    }
+
+    public function approve(Job $job, Request $request)
+    {
+        $job->status = 'approved';
+        $job->save();
+
+        return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job approved');
+    }
+
+    public function decline(Job $job, Request $request)
+    {
+        $job->status = 'declined';
+        $job->save();
+
+        return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job declined');
     }
 
     /**

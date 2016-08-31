@@ -47,6 +47,7 @@
                                 <th>
                                     Machine
                                 </th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -96,6 +97,25 @@
                                  </td>
                                  <td>
                                      {{ $job->machine->name }}
+                                 </td>
+                                 <td>
+                                    @if( $job->status == 'Pending' )
+                                    <form action="{{ url('/jobs/approve') . '/' . $job->id . '?page=' . Request::get('page', 1) }}" method="POST">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn">Approve</button>
+                                        </div>
+                                        {{ csrf_field() }}
+                                        {{ method_field('PUT') }}
+                                    </form>
+
+                                    <form action="{{ url('/jobs/decline') . '/' . $job->id }}" method="POST">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn">Decline</button>
+                                        </div>
+                                        {{ csrf_field() }}
+                                        {{ method_field('PUT') }}
+                                    </form>
+                                    @endif
                                  </td>
                              </tr>
                             @endforeach
