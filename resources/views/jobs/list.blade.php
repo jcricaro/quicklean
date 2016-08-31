@@ -47,6 +47,9 @@
                                 <th>
                                     Status
                                 </th>
+                                <th>
+                                    Total Bill
+                                </th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -100,6 +103,9 @@
                                  </td>
                                  <td>
                                      {{ $job->status }}
+                                 </td>
+                                 <td>
+                                     {{ $job->totalBill }}
                                  </td>
                                  <td>
                                     @if( $job->status == 'Pending' )

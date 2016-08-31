@@ -142,4 +142,93 @@ class Job extends Model
     {
         return $this->belongsTo('App\Machine', 'dryer_id');
     }
+
+    public function getTotalBillAttribute()
+    {
+        $total = 0;
+
+        if($this->is_fold) {
+            $total += 35;
+        }
+
+        switch ($this->detergent) {
+            case 'ariel':
+                $total += 12;
+                break;
+            case 'tide':
+                $total += 10;
+                break;
+            case 'pride':
+                $total += 6;
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        if($this->fabric_conditioner == 'downy') {
+            $total += 10;
+        }
+
+        switch ($this->bleach) {
+            case 'colorsafe':
+                $total += 5;
+            case 'original':
+                $total += 12;
+            default:
+                # code...
+                break;
+        }
+        switch ($this->washer_mode) {
+            case 'Clean':
+                if($this->kilogram == '8 kg') {
+                    $total += 70;
+                } else {
+                    $total += 140;    
+                }
+                break;
+            case 'Cleaner':
+                if($this->kilogram == '8 kg') {
+                    $total += 80;
+                } else {
+                    $total += 160;    
+                }
+            case 'Cleanest':
+                if($this->kilogram == '8 kg') {
+                    $total += 90;
+                } else {
+                    $total += 180;    
+                }
+            default:
+                # code...
+                break;
+        }
+
+        switch ($this->dryer_mode) {
+            case '19 mins':
+                if($this->kilogram == '8 kg') {
+                    $total += 70;
+                } else {
+                    $total += 140;    
+                }
+                break;
+            case '24 mins':
+                if($this->kilogram == '8 kg') {
+                    $total += 80;
+                } else {
+                    $total += 160;    
+                }
+            case '29 mins':
+                if($this->kilogram == '8 kg') {
+                    $total += 90;
+                } else {
+                    $total += 180;    
+                }
+            default:
+                # code...
+                break;
+        }
+
+        return $total;
+    }
 }
