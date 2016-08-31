@@ -42,10 +42,10 @@
                                     Services
                                 </th>
                                 <th>
-                                    Status
+                                    Machines
                                 </th>
                                 <th>
-                                    Machine
+                                    Status
                                 </th>
                                 <th></th>
                             </tr>
@@ -93,10 +93,13 @@
                                      </ul>
                                  </td>
                                  <td>
-                                     {{ $job->status }}
+                                    <ul class="list-unstyled">
+                                        <li>{{ $job->washer ? $job->washer->name : '' }}</li>
+                                        <li>{{ $job->dryer ? $job->dryer->name : '' }}</li>
+                                     </ul>
                                  </td>
                                  <td>
-                                     {{ $job->machine->name }}
+                                     {{ $job->status }}
                                  </td>
                                  <td>
                                     @if( $job->status == 'Pending' )

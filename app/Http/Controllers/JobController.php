@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Job;
 use Carbon\Carbon;
+use App\Machine;
 
 class JobController extends Controller
 {
@@ -22,10 +23,25 @@ class JobController extends Controller
         return view('jobs.list')->with('jobs', $jobs);
     }
 
-    public function approve(Job $job, Request $request)
+    public function approve(Job $job, Request $request, Machine $machine)
     {
         $job->status = 'approved';
         $job->approved_at = Carbon::now();
+
+        // assign to washer with the least amount of pending
+        // 
+        
+        $washer = $machine->washer()->withCount('queueWasher')->orderBy('queue_washer_count')->first();
+
+        $job->washer()->associate($washer);
+
+
+        // assign to dryer with the least amount of pending
+        
+        $dryer = $machine->dryer()->withCount('queueDryer')->orderBy('queue_dryer_count')->first();
+
+        $job->dryer()->associate($dryer);
+
         $job->save();
 
         return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job approved');

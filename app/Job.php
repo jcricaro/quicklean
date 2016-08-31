@@ -133,8 +133,13 @@ class Job extends Model
         return ucfirst($value);
     }
 
-    public function machine()
+    public function washer()
     {
-        return $this->belongsTo('App\Machine', 'machine_id');
+        return $this->belongsTo('App\Machine', 'washer_id');
+    }
+
+    public function dryer()
+    {
+        return $this->belongsTo('App\Machine', 'dryer_id');
     }
 }

@@ -18,11 +18,48 @@ class Machine extends Model
 
     public function getAvailabilityAttribute()
     {
-    	return $this->jobs()->pending()->count() . ' Jobs Pending';
+        if( $this->type == 'Washer' ) {
+            return $this->washJobs()->approved()->count() . ' Jobs Pending';
+        }
+    	return $this->dryJobs()->approved()->count() . ' Jobs Pending';
     }
 
-    public function jobs()
+    public function queueWasher()
     {
-    	return $this->hasMany('App\Job', 'machine_id');
+        return $this->washJobs()->where('status', 'approved')->orderBy('approved_at', 'asc');
+    }
+
+    public function queueDryer()
+    {
+        return $this->dryJobs()->where('status', 'approved')->orderBy('approved_at', 'asc');   
+    }
+
+    public function queue()
+    {
+        if( $this->type == 'washer' ) {
+            return $this->washJobs()->where('status', 'approved')->orderBy('approved_at', 'asc');
+        }
+
+        return $this->dryJobs()->where('status', 'approved')->orderBy('approved_at', 'asc');
+    }
+
+    public function scopeWasher($query)
+    {
+        return $query->where('type', 'washer');
+    }
+
+    public function scopeDryer($query)
+    {
+        return $query->where('type', 'dryer');
+    }
+
+    public function washJobs()
+    {
+        return $this->hasMany('App\Job', 'washer_id', 'id');
+    }
+
+    public function dryJobs()
+    {
+        return $this->hasMany('App\Job', 'dryer_id', 'id');
     }
 }

@@ -18,8 +18,6 @@ class JobsTableSeeder extends Seeder
 
         $faker = Faker::create();
 
-        $machines = Machine::all()->pluck('id')->toArray();
-
         foreach( range(1, 30) as $index) {
 
             Job::create([
@@ -34,8 +32,7 @@ class JobsTableSeeder extends Seeder
                 'fabric_conditioner' => $faker->randomElement(['downy', 'i_have_one']),
                 'is_press' => $faker->boolean,
                 'is_fold' => $faker->boolean,
-                'status' => 'pending',
-                'machine_id' => $faker->randomElement($machines)
+                'status' => 'pending'
             ]);
         }
     }
