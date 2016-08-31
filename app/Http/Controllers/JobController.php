@@ -55,6 +55,14 @@ class JobController extends Controller
         return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job declined');
     }
 
+    public function done(Job $job, Request $request)
+    {
+        $job->status = 'done';
+        $job->save();
+
+        return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job done!');
+    }
+
     /**
      * Show the form for creating a new resource.
      *

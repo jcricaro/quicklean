@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth'], function()
 {
 	Route::put('/jobs/approve/{jobs}', 'JobController@approve');
 	Route::put('/jobs/decline/{jobs}', 'JobController@decline');
+	Route::put('/jobs/done/{jobs}', 'JobController@done');
 	Route::resource('/jobs', 'JobController');
 	Route::resource('/machines', 'MachineController');
 });

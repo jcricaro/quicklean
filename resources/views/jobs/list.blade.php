@@ -117,9 +117,19 @@
                                         {{ method_field('PUT') }}
                                     </form>
 
-                                    <form action="{{ url('/jobs/decline') . '/' . $job->id }}" method="POST">
+                                    <form action="{{ url('/jobs/decline') . '/' . $job->id . '?page=' . Request::get('page', 1) }}" method="POST">
                                         <div class="form-group">
                                             <button type="submit" class="btn">Decline</button>
+                                        </div>
+                                        {{ csrf_field() }}
+                                        {{ method_field('PUT') }}
+                                    </form>
+                                    @endif
+
+                                    @if( $job->status == 'Approved' )
+                                    <form action="{{ url('/jobs/done') . '/' . $job->id . '?page=' . Request::get('page', 1) }}" method="POST">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn">Done</button>
                                         </div>
                                         {{ csrf_field() }}
                                         {{ method_field('PUT') }}
