@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Job;
 use Carbon\Carbon;
 use App\Machine;
+use App\Http\Requests\Job\AddJobReservationRequest;
+use App\Http\Requests\Job\AddJobWalkinRequest;
 
 class JobController extends Controller
 {
@@ -143,5 +145,68 @@ class JobController extends Controller
         $job->delete();
 
         return redirect('/jobs')->with('success', 'Job Deleted');
+    }
+
+    public function reservation()
+    {
+        return view('jobs.reservation');
+    }
+
+    public function walkin()
+    {
+        return view('jobs.walkin');
+    }
+
+    public function storeReservation(AddJobReservationRequest $request, Job $job)
+    {
+        $job->create($request->only([
+            'name',
+            'phone',
+            'service_type',
+            'kilogram',
+            'washer_mode',
+            'dryer_mode',
+            'detergent',
+            'bleach',
+            'fabric_conditioner',
+            'is_press',
+            'is_fold'
+            ]));
+
+        $job->save();
+    }
+
+    public function storeWalkin(AddJobWalkinRequest $request, Job $job, Machine $machine)
+    {
+        // dd($request->get('is_press'));
+        $job = $job->create($request->only([
+            'name',
+            'phone',
+            'service_type',
+            'kilogram',
+            'washer_mode',
+            'dryer_mode',
+            'detergent',
+            'bleach',
+            'fabric_conditioner',
+            'is_press',
+            'is_fold'
+            ]));
+
+        // assign to washer with the least amount of pending
+        
+        $washer = $machine->washer()->withCount('queueWasher')->orderBy('queue_washer_count')->first();
+
+        $job->washer()->associate($washer);
+
+        // assign to dryer with the least amount of pending
+        
+        $dryer = $machine->dryer()->withCount('queueDryer')->orderBy('queue_dryer_count')->first();
+
+        $job->dryer()->associate($dryer);
+
+        $job->save();
+
+        return redirect('/jobs')->with('success', 'Job Approved');
     }
 }

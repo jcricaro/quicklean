@@ -15,7 +15,7 @@
 					</div>
 					@endforeach
 
-					<form action="{{ url('/machines') }}" method="POSt">
+					<form action="{{ url('/machines') }}" method="post">
 						<div class="form-group">
 							<label for="name">
 								Name
