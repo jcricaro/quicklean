@@ -29,12 +29,10 @@ class JobController extends Controller
         $job->approved_at = Carbon::now();
 
         // assign to washer with the least amount of pending
-        // 
         
         $washer = $machine->washer()->withCount('queueWasher')->orderBy('queue_washer_count')->first();
 
         $job->washer()->associate($washer);
-
 
         // assign to dryer with the least amount of pending
         
@@ -44,7 +42,7 @@ class JobController extends Controller
 
         $job->save();
 
-        return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job approved');
+        return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job Approved');
     }
 
     public function decline(Job $job, Request $request)
@@ -60,7 +58,7 @@ class JobController extends Controller
         $job->status = 'done';
         $job->save();
 
-        return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job done!');
+        return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job Done!');
     }
 
     /**
@@ -79,9 +77,25 @@ class JobController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Job $job)
     {
-        //
+        $job->create($request->only([
+            'name',
+            'phone',
+            'service_type',
+            'kilogram',
+            'washer_mode',
+            'dryer_mode',
+            'detergernt',
+            'bleach',
+            'fabric_conditioner',
+            'is_press',
+            'is_fold'
+            ]));
+
+        $job->save();
+
+        return redirect('/jobs')->with('success', 'Job Created!');
     }
 
     /**
@@ -124,8 +138,10 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Job $id)
     {
-        //
+        $job->delete();
+
+        return redirect('/jobs')->with('success', 'Job Deleted');
     }
 }
