@@ -45,6 +45,7 @@
                     <li><a href="{{ url('/home') }}">Home</a></li>
 
                     @if( ! Auth::guest() )
+                    <li><a href="{{ url('/jobs/reservations') }}">Reservations</a></li>
                     <li><a href="{{ url('/jobs') }}">Jobs</a></li>
                     <li><a href="{{ url('/machines') }}">Machines</a></li>
                     <li><a href="{{ url('/reports') }}">Reports</a></li>
