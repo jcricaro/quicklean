@@ -21,8 +21,10 @@ Route::get('/home', 'HomeController@index');
 
 Route::group(['middleware' => 'auth'], function()
 {
-	Route::get('/jobs/reservation', 'JobController@reservation');
-	Route::get('/jobs/walk-in', 'JobController@walkin');
+	Route::get('/jobs/reservations/create', 'JobController@reservation');
+	Route::get('/jobs/walk-ins/create', 'JobController@walkin');
+	Route::get('/jobs/reservations', 'JobController@getReservations');
+	Route::get('/jobs/walk-ins', 'JobController@getWalkins');
 
 	Route::post('/jobs/reservation', 'JobController@storeReservation');
 	Route::post('/jobs/walk-in', 'JobController@storeWalkin');

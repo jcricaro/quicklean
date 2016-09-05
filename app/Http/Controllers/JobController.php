@@ -13,6 +13,13 @@ use App\Http\Requests\Job\AddJobWalkinRequest;
 
 class JobController extends Controller
 {
+    public function getReservations(Job $job)
+    {
+        $jobs = $job->where('status', 'reserved')->orWhereNotNull('reserve_at')->orderBy('id', 'desc')->paginate();
+
+        return view('jobs.list')->with('jobs', $jobs);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -159,26 +166,6 @@ class JobController extends Controller
 
     public function storeReservation(AddJobReservationRequest $request, Job $job)
     {
-        $job->create($request->only([
-            'name',
-            'phone',
-            'service_type',
-            'kilogram',
-            'washer_mode',
-            'dryer_mode',
-            'detergent',
-            'bleach',
-            'fabric_conditioner',
-            'is_press',
-            'is_fold'
-            ]));
-
-        $job->save();
-    }
-
-    public function storeWalkin(AddJobWalkinRequest $request, Job $job, Machine $machine)
-    {
-        // dd($request->get('is_press'));
         $job = $job->create($request->only([
             'name',
             'phone',
@@ -192,6 +179,31 @@ class JobController extends Controller
             'is_press',
             'is_fold'
             ]));
+
+
+        $job->reservation = date('Y-m-d H:i:s', strtotime($request->get('time')));
+
+        $job->save();
+
+        return redirect('/jobs/reservations?page=' . $request->get('page', 1))->with('success', 'Job Reserved');
+        
+    }
+
+    public function storeWalkin(AddJobWalkinRequest $request, Job $job, Machine $machine)
+    {
+        $job = $job->create(array_merge($request->only([
+            'name',
+            'phone',
+            'service_type',
+            'kilogram',
+            'washer_mode',
+            'dryer_mode',
+            'detergent',
+            'bleach',
+            'fabric_conditioner',
+            'is_press',
+            'is_fold'
+            ])), ['status' => 'approved']);
 
         // assign to washer with the least amount of pending
         
@@ -207,6 +219,6 @@ class JobController extends Controller
 
         $job->save();
 
-        return redirect('/jobs')->with('success', 'Job Approved');
+        return redirect('/jobs/walk-ins?page=' . $request->get('page', 1))->with('success', 'Job Approved');
     }
 }

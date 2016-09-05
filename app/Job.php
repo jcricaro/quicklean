@@ -29,7 +29,8 @@ class Job extends Model
         'bleach',
         'fabric_conditioner',
         'is_press',
-        'is_fold'
+        'is_fold',
+        'reserve_at'
     ];
 
     /**
@@ -41,7 +42,8 @@ class Job extends Model
     ];
 
     protected $dates = [
-        'approved_at'
+        'approved_at',
+        'reserve_at'
     ];
 
     /**
