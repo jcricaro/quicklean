@@ -20,10 +20,5 @@ Route::get('/user', function (Request $request) {
 Route::group(['namespace' => 'Api'], function()
 {
 	Route::post('/jobs', 'JobController@store');
-});
-	
-
-Route::get('/jobs/{jobs}', function()
-{
-	return [];
+	Route::get('/jobs/{jobs}', 'JobController@show');
 });

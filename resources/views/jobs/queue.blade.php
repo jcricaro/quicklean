@@ -14,6 +14,7 @@
 						<thead>
 							<tr>
 								<th>
+									Uuid
 								</th>
 								<th>
 									Customer
@@ -38,7 +39,11 @@
 									{{ $reservation->reserve_at->toDayDateTimeString() }}
 								</td>
 								<td>
-									<a class="btn btn-danger btn-xs" href="{{ url('/') }}">Decline</a>
+									<form action="{{ url('/jobs/decline') . '/' . $reservation->id }}" method="POST">
+										<button type="submit" class="btn btn-danger btn-xs">Decline</button>
+	                                    {{ csrf_field() }}
+	                                    {{ method_field('PUT') }}
+	                                </form>
 								</td>
 							</tr>
 							@endforeach
@@ -50,13 +55,17 @@
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Walk-in Pending
+					<div class="clearfix">
+						<span class="pull-left">Walk-in Pending</span>
+						<a href="{{ url('/jobs/walk-ins/create') }}" class="btn btn-xs pull-right">Add</a>
+					</div>
 				</div>
 				<div class="panel-body">
 					<table class="table">
 						<thead>
 							<tr>
 								<th>
+									Uuid
 								</th>
 								<th>
 									Customer
@@ -112,7 +121,7 @@
 					<table class="table">
 						<tr>
 							<th>
-								UUID
+								Uuid
 							</th>
 							<th>
 								Customer Name
@@ -150,7 +159,11 @@
 						@endforeach
 
 						@foreach($machine->dryJobs()->approved()->get() as $index => $job)
+						@if( $index == 0 )
+						<tr class="info">
+						@else
 						<tr>
+						@endif
 							<td>
 								{{ $job->uuid }}
 							</td>
@@ -159,9 +172,18 @@
 							</td>
 							<td>
 								@if( $index == 0 )
-								<a class="btn btn-primary btn-xs" href="{{ url('/done') }}">Done</a>
+								<form action="{{ url('/jobs/done') . '/' . $job->id }}" method="POST">
+									<button type="submit" class="btn btn-primary btn-xs">Done</button>
+                                    {{ csrf_field() }}
+                                    {{ method_field('PUT') }}
+                                </form>
 								@endif
-								<a class="btn btn-danger btn-xs" href="{{ url('/') }}">Cancel</a>
+
+								<form action="{{ url('/jobs/cancel') . '/' . $job->id }}" method="POST">
+									<button type="submit" class="btn btn-danger btn-xs">Cancel</button>
+                                    {{ csrf_field() }}
+                                    {{ method_field('PUT') }}
+                                </form>
 							</td>
 						</tr>
 						@endforeach

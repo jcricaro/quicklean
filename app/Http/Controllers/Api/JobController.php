@@ -34,4 +34,11 @@ class JobController extends Controller
     		'data' => $job->toArray()
     		]);
     }
+
+    public function show(Job $job)
+    {
+        return response()->json([
+            'data' => $job->toArray()
+            ]);
+    }
 }

@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Machine;
 use App\Http\Requests\Job\AddJobReservationRequest;
 use App\Http\Requests\Job\AddJobWalkinRequest;
+use App\Events\JobStatusChange;
 
 class JobController extends Controller
 {
@@ -51,6 +52,8 @@ class JobController extends Controller
     {
         $job->status = 'declined';
         $job->save();
+
+        event(new JobStatusChange($job));
 
         return redirect('/jobs/queue')->with('success', 'Job declined');
     }
@@ -159,6 +162,11 @@ class JobController extends Controller
         
     }
 
+    public function walkin()
+    {
+        return view('jobs.walkin');
+    }
+
     public function storeWalkin(AddJobWalkinRequest $request, Job $job, Machine $machine)
     {
         $job = $job->create(array_merge($request->only([
@@ -189,7 +197,7 @@ class JobController extends Controller
 
         $job->save();
 
-        return redirect('/jobs/walk-ins?page=' . $request->get('page', 1))->with('success', 'Job Approved');
+        return redirect('/jobs/queue')->with('success', 'Job Approved');
     }
 
     /**
@@ -200,7 +208,7 @@ class JobController extends Controller
      */
     public function getQueue(Job $job, Machine $machine)
     {
-        $reservations = $job->reservation()->get();
+        $reservations = $job->reservation()->where('status', '!=', 'declined')->get();
 
         $pending = $job->pending()->walkin()->get();
 
