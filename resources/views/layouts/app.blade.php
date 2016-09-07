@@ -51,9 +51,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url('/jobs') }}">All</a></li>
-                            <li><a href="{{ url('/jobs/reservations') }}">Reservations</a></li>
-                            <li><a href="{{ url('/jobs/pending') }}">For Approval</a></li>
-                            <li><a href="{{ url('/jobs/approved') }}">Queue</a></li>
+                            <li><a href="{{ url('/jobs/queue') }}">Queue</a></li>
                         </ul>
                         
                     </li>
