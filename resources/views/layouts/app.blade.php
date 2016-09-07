@@ -45,8 +45,18 @@
                     <li><a href="{{ url('/home') }}">Home</a></li>
 
                     @if( ! Auth::guest() )
-                    <li><a href="{{ url('/jobs/reservations') }}">Reservations</a></li>
-                    <li><a href="{{ url('/jobs') }}">Jobs</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        Jobs <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url('/jobs') }}">All</a></li>
+                            <li><a href="{{ url('/jobs/reservations') }}">Reservations</a></li>
+                            <li><a href="{{ url('/jobs/pending') }}">For Approval</a></li>
+                            <li><a href="{{ url('/jobs/approved') }}">Queue</a></li>
+                        </ul>
+                        
+                    </li>
                     <li><a href="{{ url('/machines') }}">Machines</a></li>
                     <li><a href="{{ url('/reports') }}">Reports</a></li>
                     @endif
@@ -54,7 +64,7 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
+                    <!-- Authenticatoin Links -->
                     @if (Auth::guest())
                         <li><a href="{{ url('/login') }}">Login</a></li>
                     @else
@@ -94,8 +104,8 @@
         </div>
     </div>
     @endif
-    @yield('content')
-
+    @yield('content'
+)
     <!-- Scripts -->
     <script src="/js/app.js"></script>
 </body>

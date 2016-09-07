@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index');
 
 Route::group(['middleware' => 'auth'], function()
 {
+	Route::get('/jobs/queue', 'JobController@getQueue');
 	Route::get('/jobs/reservations/create', 'JobController@reservation');
 	Route::get('/jobs/walk-ins/create', 'JobController@walkin');
 	Route::get('/jobs/reservations', 'JobController@getReservations');

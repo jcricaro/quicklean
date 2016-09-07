@@ -17,7 +17,7 @@ class JobController extends Controller
     {
         $jobs = $job->where('status', 'reserved')->orWhereNotNull('reserve_at')->orderBy('id', 'desc')->paginate();
 
-        return view('jobs.list')->with('jobs', $jobs);
+        return view('jobs.reservations.list')->with('jobs', $jobs);
     }
 
     /**
@@ -220,5 +220,12 @@ class JobController extends Controller
         $job->save();
 
         return redirect('/jobs/walk-ins?page=' . $request->get('page', 1))->with('success', 'Job Approved');
+    }
+
+    public function getQueue(Job $job, Machine $machine)
+    {
+        return view('jobs.queue')->with([
+            'machines' => $machine->all()
+            ]);
     }
 }

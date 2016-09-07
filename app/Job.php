@@ -233,4 +233,9 @@ class Job extends Model
 
         return $total;
     }
+
+    public function getUuidAttribute()
+    {
+        return str_pad($this->id, 5, '0', STR_PAD_LEFT);
+    }
 }

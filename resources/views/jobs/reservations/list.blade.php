@@ -50,6 +50,9 @@
                                 <th>
                                     Total Bill
                                 </th>
+                                <th>
+                                    Reservation Time
+                                </th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -106,6 +109,9 @@
                                  </td>
                                  <td>
                                      {{ $job->totalBill }}
+                                 </td>
+                                 <td>
+                                     {{ $job->reserve_at->toDayDateTimeString() }}
                                  </td>
                                  <td>
                                     @if( $job->status == 'Pending' )
