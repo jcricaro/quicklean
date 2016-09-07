@@ -17,7 +17,11 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
-Route::post('/jobs', 'Api/JobController@store');
+Route::group(['namespace' => 'Api'], function()
+{
+	Route::post('/jobs', 'JobController@store');
+});
+	
 
 Route::get('/jobs/{jobs}', function()
 {
