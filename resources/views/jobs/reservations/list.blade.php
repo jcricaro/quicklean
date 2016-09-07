@@ -109,7 +109,7 @@
                                  </td>
                                  <td>
                                      {{ $job->totalBill }}
-                                 </td>
+                                 </td>otuie
                                  <td>
                                      {{ $job->reserve_at->toDayDateTimeString() }}
                                  </td>

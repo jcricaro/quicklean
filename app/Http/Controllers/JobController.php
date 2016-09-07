@@ -13,13 +13,6 @@ use App\Http\Requests\Job\AddJobWalkinRequest;
 
 class JobController extends Controller
 {
-    public function getReservations(Job $job)
-    {
-        $jobs = $job->where('status', 'reserved')->orWhereNotNull('reserve_at')->orderBy('id', 'desc')->paginate();
-
-        return view('jobs.reservations.list')->with('jobs', $jobs);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -51,7 +44,7 @@ class JobController extends Controller
 
         $job->save();
 
-        return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job Approved');
+        return redirect('/jobs/queue')->with('success', 'Job Approved');
     }
 
     public function decline(Job $job, Request $request)
@@ -59,7 +52,15 @@ class JobController extends Controller
         $job->status = 'declined';
         $job->save();
 
-        return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job declined');
+        return redirect('/jobs/queue')->with('success', 'Job declined');
+    }
+
+    public function cancel(Job $job, Request $request)
+    {
+        $job->status = 'cancelled';
+        $job->save();
+
+        return redirecT('/jobs/queue')->with('success', 'Job cancelled');
     }
 
     public function done(Job $job, Request $request)
@@ -67,17 +68,7 @@ class JobController extends Controller
         $job->status = 'done';
         $job->save();
 
-        return redirect('/jobs?page=' . $request->get('page', 1))->with('success', 'Job Done!');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return redirect('/jobs/queue')->with('success', 'Job Done!');
     }
 
     /**
@@ -105,17 +96,6 @@ class JobController extends Controller
         $job->save();
 
         return redirect('/jobs')->with('success', 'Job Created!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -152,16 +132,6 @@ class JobController extends Controller
         $job->delete();
 
         return redirect('/jobs')->with('success', 'Job Deleted');
-    }
-
-    public function reservation()
-    {
-        return view('jobs.reservation');
-    }
-
-    public function walkin()
-    {
-        return view('jobs.walkin');
     }
 
     public function storeReservation(AddJobReservationRequest $request, Job $job)
@@ -222,10 +192,22 @@ class JobController extends Controller
         return redirect('/jobs/walk-ins?page=' . $request->get('page', 1))->with('success', 'Job Approved');
     }
 
+    /**
+     * Get Queue
+     * @param  Job     $job     App\Job
+     * @param  Machine $machine App\Machine
+     * @return Response
+     */
     public function getQueue(Job $job, Machine $machine)
     {
+        $reservations = $job->reservation()->get();
+
+        $pending = $job->pending()->walkin()->get();
+
         return view('jobs.queue')->with([
-            'machines' => $machine->all()
+            'machines' => $machine->all(),
+            'reservations' => $reservations,
+            'pendings' => $pending
             ]);
     }
 }

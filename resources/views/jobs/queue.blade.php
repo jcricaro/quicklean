@@ -2,69 +2,177 @@
 
 @section('content')
 <div class="container">
+	
 	<div class="row">
-		<div class="col-md-12">
-			@foreach($machines as $machine)
-			<div class="col-md-4">
-				<div class="panel panel-default
-				@if( $machine->washJobs()->approved()->count() > 0 || $machine->dryJobs()->approved()->count() > 0 )
-				panel-danger
-				@else
-				panel-success
-				@endif">
-					<div class="panel-heading">
-						{{ $machine->name }}
-					</div>
-					<div class="panel-body">
-						@if( $machine->washJobs()->approved()->count() > 0 || $machine->dryJobs()->approved()->count() > 0 )
-						<table class="table">
-							<!-- <tr>
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Reservations
+				</div>
+				<div class="panel-body">
+					<table class="table">
+						<thead>
+							<tr>
 								<th>
-									UUID
 								</th>
 								<th>
-									Customer Name
+									Customer
 								</th>
-								<th></th>
-							</tr> -->
-							@foreach($machine->washJobs as $job)
+								<th>
+									Reservation time
+								</th>
+								<th>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($reservations as $reservation)
 							<tr>
 								<td>
-									{{ $job->uuid }}
+									{{ $reservation->uuid }}
 								</td>
 								<td>
-									{{ $job->name }}
+									{{ $reservation->name }}
 								</td>
 								<td>
-									<a class="btn btn-primary btn-xs" href="{{ url('/done') }}">Done</a>
-									<a class="btn btn-danger btn-xs" href="{{ url('/') }}">Cancel</a>
+									{{ $reservation->reserve_at->toDayDateTimeString() }}
+								</td>
+								<td>
+									<a class="btn btn-danger btn-xs" href="{{ url('/') }}">Decline</a>
 								</td>
 							</tr>
 							@endforeach
-
-							@foreach($machine->dryJobs as $job)
-							<tr>
-								<td>
-									{{ $job->uuid }}
-								</td>
-								<td>
-									{{ $job->name }}
-								</td>
-								<td>
-									<a class="btn btn-primary btn-xs" href="{{ url('/done') }}">Done</a>
-									<a class="btn btn-danger btn-xs" href="{{ url('/') }}">Cancel</a>
-								</td>
-							</tr>
-							@endforeach
-						</table>
-						@else
-						Available!
-						@endif
-					</div>
+						</tbody>
+					</table>
 				</div>
 			</div>
-			@endforeach
 		</div>
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Walk-in Pending
+				</div>
+				<div class="panel-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>
+								</th>
+								<th>
+									Customer
+								</th>
+								<th>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($pendings as $pending)
+							<tr>
+								<td>
+									{{ $pending->uuid }}
+								</td>
+								<td>
+									{{ $pending->name }}
+								</td>
+								<td>
+									<form action="{{ url('/jobs/approve') . '/' . $pending->id }}" method="POST">
+                                        <button type="submit" class="btn btn-xs">Approve</button>
+                                        {{ csrf_field() }}
+                                        {{ method_field('PUT') }}
+                                    </form>
+									<form action="{{ url('/jobs/decline') . '/' . $pending->id }}" method="POST">
+										<button type="submit" class="btn btn-danger btn-xs">Decline</button>
+                                        {{ csrf_field() }}
+                                        {{ method_field('PUT') }}
+                                    </form>
+								</td>
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		@foreach($machines as $machine)
+		<div class="col-md-4">
+			<div class="panel panel-default
+			@if( $machine->washJobs()->approved()->count() > 0 || $machine->dryJobs()->approved()->count() > 0 )
+			panel-warning
+			@else
+			panel-success
+			@endif">
+				<div class="panel-heading">
+					{{ $machine->name }}
+				</div>
+				<div class="panel-body">
+					@if( $machine->washJobs()->approved()->count() > 0 || $machine->dryJobs()->approved()->count() > 0 )
+					<table class="table">
+						<tr>
+							<th>
+								UUID
+							</th>
+							<th>
+								Customer Name
+							</th>
+							<th></th>
+						</tr>
+						@foreach($machine->washJobs()->approved()->get() as $index => $job)
+						@if( $index == 0 )
+						<tr class="info">
+						@else
+						<tr>
+						@endif
+							<td>
+								{{ $job->uuid }}
+							</td>
+							<td>
+								{{ $job->name }}
+							</td>
+							<td>
+								@if( $index == 0 )
+								<form action="{{ url('/jobs/done') . '/' . $job->id }}" method="POST">
+									<button type="submit" class="btn btn-primary btn-xs">Done</button>
+                                    {{ csrf_field() }}
+                                    {{ method_field('PUT') }}
+                                </form>
+								@endif
+
+								<form action="{{ url('/jobs/cancel') . '/' . $job->id }}" method="POST">
+									<button type="submit" class="btn btn-danger btn-xs">Cancel</button>
+                                    {{ csrf_field() }}
+                                    {{ method_field('PUT') }}
+                                </form>
+							</td>
+						</tr>
+						@endforeach
+
+						@foreach($machine->dryJobs()->approved()->get() as $index => $job)
+						<tr>
+							<td>
+								{{ $job->uuid }}
+							</td>
+							<td>
+								{{ $job->name }}
+							</td>
+							<td>
+								@if( $index == 0 )
+								<a class="btn btn-primary btn-xs" href="{{ url('/done') }}">Done</a>
+								@endif
+								<a class="btn btn-danger btn-xs" href="{{ url('/') }}">Cancel</a>
+							</td>
+						</tr>
+						@endforeach
+					</table>
+					@else
+					Available!
+					@endif
+				</div>
+			</div>
+		</div>
+		@endforeach
 	</div>
 </div>
 @stop

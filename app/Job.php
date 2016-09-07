@@ -145,6 +145,16 @@ class Job extends Model
         return $this->belongsTo('App\Machine', 'dryer_id');
     }
 
+    public function scopeReservation($query)
+    {
+        return $query->whereNotNull('reserve_at');
+    }
+
+    public function scopeWalkin($query)
+    {
+        return $query->whereNull('reserve_at');
+    }
+
     public function getTotalBillAttribute()
     {
         $total = 0;
