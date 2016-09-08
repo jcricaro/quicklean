@@ -46,6 +46,11 @@ class Job extends Model
         'reserve_at'
     ];
 
+    public function setReserveAtAttribute($value)
+    {
+        return date('Y-m-d H:i:s', strtotime($value));
+    }
+
     /**
      * @param $value
      * @return string

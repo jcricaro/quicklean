@@ -25,11 +25,9 @@ class JobController extends Controller
     		'fabric_conditioner',
     		'is_press',
     		'is_fold',
-    		'status'
+    		'status',
+    		'reserve_at'
     		]));
-
-        $job->reserve_at = date("Y-m-d H:i:s", strtotime($request->get('reserve_at')));
-        $job->save();
     	
     	return response()->json([
     		'message' => 'Reserved',
