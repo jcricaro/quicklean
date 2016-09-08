@@ -13,7 +13,7 @@ class JobController extends Controller
 {
     public function store(AddJobReservationRequest $request, Job $job)
     {
-    	$job = $job->create(array_merge($request->only([
+    	$job = $job->create($request->only([
     		'name',
     		'phone',
     		'service_type',
@@ -26,7 +26,10 @@ class JobController extends Controller
     		'is_press',
     		'is_fold',
     		'status'
-    		])), ['reserve_at' => date('Y-m-d H:i:s', strtotime($request->get('reserve_at')))]);
+    		]));
+
+        $job->reserve_at = date("Y-m-d H:i:s", strtotime($request->get('reserve_at')));
+        $job->save();
     	
     	return response()->json([
     		'message' => 'Reserved',
