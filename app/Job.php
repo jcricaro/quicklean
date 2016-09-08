@@ -48,7 +48,7 @@ class Job extends Model
 
     public function setReserveAtAttribute($value)
     {
-        return date('Y-m-d H:i:s', strtotime($value));
+        $this->attributes['reserve_at'] = date('Y-m-d H:i:s', strtotime($value));
     }
 
     /**
