@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Job;
 use Carbon\Carbon;
 use App\Machine;
+use App\Events\JobStatusChange;
 
 class CheckReservations extends Command
 {
@@ -55,6 +56,8 @@ class CheckReservations extends Command
                 $job->dryer()->associate($dryer);
 
                 $job->save();
+
+                event(new JobStatusChange($job));
             }
         });
 

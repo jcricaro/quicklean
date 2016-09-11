@@ -63,6 +63,8 @@ class JobController extends Controller
         $job->status = 'cancelled';
         $job->save();
 
+        event(new JobStatusChange($job));
+
         return redirecT('/jobs/queue')->with('success', 'Job cancelled');
     }
 
@@ -70,6 +72,8 @@ class JobController extends Controller
     {
         $job->status = 'done';
         $job->save();
+
+        event(new JobStatusChange($job));
 
         return redirect('/jobs/queue')->with('success', 'Job Done!');
     }
