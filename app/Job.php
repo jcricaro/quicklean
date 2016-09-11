@@ -263,8 +263,10 @@ class Job extends Model
         if( $this->washer ) {
             return [
                 'washer' => $this->washer->washJobs()->approved()->count(),
-                'dryer' => $this->washer->dryJobs()->approved()->count()
+                'dryer' => $this->dryer->dryJobs()->approved()->count()
             ];   
         }
+
+        return null;
     }
 }
