@@ -7,7 +7,10 @@
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Reservations
+					<div class="clearfix">
+						<span class="pull-left">Reservations</span>
+						<a href="{{ url('/jobs/reservations/create') }}" class="btn btn-xs pull-right">Add</a>
+					</div>
 				</div>
 				<div class="panel-body">
 					<table class="table">

@@ -46,6 +46,10 @@ class Job extends Model
         'reserve_at'
     ];
 
+    protected $appends = [
+        'queue'
+    ];
+
     public function setReserveAtAttribute($value)
     {
         $this->attributes['reserve_at'] = date('Y-m-d H:i:s', strtotime($value));
@@ -252,5 +256,15 @@ class Job extends Model
     public function getUuidAttribute()
     {
         return str_pad($this->id, 5, '0', STR_PAD_LEFT);
+    }
+
+    public function getQueueAttribute()
+    {
+        if( $this->washer ) {
+            return [
+                'washer' => $this->washer->washJobs()->approved()->count(),
+                'dryer' => $this->washer->dryJobs()->approved()->count()
+            ];   
+        }
     }
 }

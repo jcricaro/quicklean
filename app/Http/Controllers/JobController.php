@@ -162,6 +162,11 @@ class JobController extends Controller
         
     }
 
+    public function reservation()
+    {
+        return view('jobs.reservation');
+    }
+
     public function walkin()
     {
         return view('jobs.walkin');

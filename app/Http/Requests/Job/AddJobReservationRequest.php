@@ -26,7 +26,7 @@ class AddJobReservationRequest extends FormRequest
         return [
             'name' => 'required',
             'phone' => 'required',
-            'reserve_at' => 'required'
+            'reserve_at' => 'required|date'
         ];
     }
 }
