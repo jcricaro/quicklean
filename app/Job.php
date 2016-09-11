@@ -47,7 +47,8 @@ class Job extends Model
     ];
 
     protected $appends = [
-        'queue'
+        'queue',
+        'total_bill'
     ];
 
     public function setReserveAtAttribute($value)
