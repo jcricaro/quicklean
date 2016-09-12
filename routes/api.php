@@ -19,7 +19,7 @@ Route::get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'Api'], function()
 {
+	Route::put('/jobs/cancel/{jobs}', 'JobController@cancel');
 	Route::post('/jobs', 'JobController@store');
 	Route::get('/jobs/{jobs}', 'JobController@show');
-	Route::put('/jobs/{jobs}', 'JobController@cancel');
 });
