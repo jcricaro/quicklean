@@ -41,4 +41,14 @@ class JobController extends Controller
             'data' => $job->toArray()
             ]);
     }
+
+    public function cancel(Job $job)
+    {
+        $job->status = 'cancelled';
+        $job->save();
+
+        return response()->json([
+            'message' => 'Job Cancelled'
+            ]);
+    }
 }
