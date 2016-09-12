@@ -36,4 +36,6 @@ Route::group(['middleware' => 'auth'], function()
 	Route::put('/jobs/cancel/{jobs}', 'JobController@cancel');
 	Route::resource('/jobs', 'JobController');
 	Route::resource('/machines', 'MachineController');
+
+	Route::get('/reports', 'ReportController@home');
 });
