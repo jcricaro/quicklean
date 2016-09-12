@@ -21,4 +21,5 @@ Route::group(['namespace' => 'Api'], function()
 {
 	Route::post('/jobs', 'JobController@store');
 	Route::get('/jobs/{jobs}', 'JobController@show');
+	Route::put('/jobs/{jobs}', 'JobController@cancel');
 });
