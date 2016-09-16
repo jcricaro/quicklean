@@ -120,6 +120,11 @@ class Job extends Model
         return ucfirst( str_replace('_', ' ', $value) );
     }
 
+    public function scopePaid($query)
+    {
+        return $query->where('status', 'paid');
+    }
+
     public function scopePendingDryer($query)
     {
         return $query->where('status', 'pending_dryer');

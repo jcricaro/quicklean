@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth'], function()
 	Route::put('/jobs/queue-washer/{jobs}', 'JobController@queueWasher');
 	Route::put('/jobs/queue-dryer/{jobs}','JobController@queueDryer');
 	Route::put('/jobs/cancel/{jobs}', 'JobController@cancel');
+	Route::put('/jobs/paid/{jobs}', 'JobController@paid');
 	Route::resource('/jobs', 'JobController');
 	Route::resource('/machines', 'MachineController');
 

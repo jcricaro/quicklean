@@ -11,7 +11,7 @@ class ReportController extends Controller
 {
     public function home(Job $job)
     {
-    	$jobs = $job->done()->paginate();
+    	$jobs = $job->paid()->paginate();
 
     	return view('reports.report')
     		->with('jobs', $jobs);
