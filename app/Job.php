@@ -293,4 +293,14 @@ class Job extends Model
             }
         }
     }
+
+    public function setIsFoldAttribute($value)
+    {
+        $this->attributes['is_fold'] = isset($value) ? true : false;
+    }
+
+    public function setIsPressAttribute($value)
+    {
+        $this->attributes['is_press'] = isset($value) ? true : false;
+    }
 }

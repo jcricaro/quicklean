@@ -149,9 +149,9 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Job $job)
     {
-        //
+        return view('jobs.edit')->with('job', $job);
     }
 
     /**
