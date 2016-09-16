@@ -11,6 +11,10 @@ class Machine extends Model
         'type'
     ];
 
+    protected $appends = [
+        'availability'
+    ];
+
     public function getTypeAttribute($value)
     {
     	return ucfirst($value);
