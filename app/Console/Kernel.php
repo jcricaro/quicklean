@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('check:reservations')->everyMinute();
+        $schedule->command('check:reservations')->everyMinute()->thenPing('http://beats.envoyer.io/heartbeat/l0ROrMBirunqYOV');
         // $schedule->command('inspire')
         //          ->hourly();
     }
