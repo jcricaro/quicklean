@@ -27,7 +27,17 @@ class CreateJobsTable extends Migration
             $table->enum('fabric_conditioner', ['downy', 'i_have_one'])->nullable();
             $table->boolean('is_press')->default(false);
             $table->boolean('is_fold')->default(false);
-            $table->enum('status', ['pending', 'reserved', 'approved', 'declined', 'done', 'expired', 'cancelled'], 'pending')->default('pending');
+            $table->enum('status', [
+                'pending',
+                'reserved',
+                'approved',
+                'declined',
+                'done',
+                'expired',
+                'cancelled',
+                'pending_washer',
+                'pending_dryer',
+                'paid'], 'pending')->default('pending');
             $table->timestamp('reserve_at')->nullable()->default(null);
             $table->softDeletes();
             $table->timestamps();

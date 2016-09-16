@@ -26,22 +26,36 @@ class JobController extends Controller
         return view('jobs.list')->with('jobs', $jobs);
     }
 
-    public function approve(Job $job, Request $request, Machine $machine)
+    public function queueWasher(Job $job, Machine $machine)
     {
-        $job->status = 'approved';
-        $job->approved_at = Carbon::now();
-
-        // assign to washer with the least amount of pending
+        $job->status = 'pending_washer';
         
         $washer = $machine->washer()->withCount('queueWasher')->orderBy('queue_washer_count')->first();
 
         $job->washer()->associate($washer);
 
-        // assign to dryer with the least amount of pending
-        
+        $job->save();
+
+        return redirect('/jobs/queue')->with('success', 'Job Queued');
+    }
+
+    public function queueDryer(Job $job, Machine $machine)
+    {
+        $job->status = 'pending_dryer';
+
         $dryer = $machine->dryer()->withCount('queueDryer')->orderBy('queue_dryer_count')->first();
 
         $job->dryer()->associate($dryer);
+
+        $job->save();
+
+        return redirect('/jobs/queue')->with('success', 'Job Queued');
+    }
+
+    public function approve(Job $job, Request $request, Machine $machine)
+    {
+        $job->status = 'approved';
+        $job->approved_at = Carbon::now();
 
         $job->save();
 
@@ -76,6 +90,16 @@ class JobController extends Controller
         event(new JobStatusChange($job));
 
         return redirect('/jobs/queue')->with('success', 'Job Done!');
+    }
+
+    public function paid(Job $job)
+    {
+        $job->status = 'paid';
+        $job->save();
+
+        event(new JobStatusChange($job));
+
+        return redirect('/jobs/queue')->with('success', 'Job Paid!');
     }
 
     /**
@@ -217,14 +241,18 @@ class JobController extends Controller
      */
     public function getQueue(Job $job, Machine $machine)
     {
-        $reservations = $job->reservation()->where('status', '!=', 'declined')->get();
+        $reservations = $job->reservation()->where('status', '!=', 'declined')->orderBy('status', 'asc')->get();
 
-        $pending = $job->pending()->walkin()->get();
+        $pending = $job->approved()->walkin()->get();
+
+        $done = $job->done()->get();
 
         return view('jobs.queue')->with([
-            'machines' => $machine->all(),
+            'washers' => $machine->washer()->get(),
+            'dryers' => $machine->dryer()->get(),
             'reservations' => $reservations,
-            'pendings' => $pending
+            'pendings' => $pending,
+            'done' => $done
             ]);
     }
 }

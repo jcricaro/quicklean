@@ -119,6 +119,15 @@ class Job extends Model
         return ucfirst( str_replace('_', ' ', $value) );
     }
 
+    public function scopePendingDryer($query)
+    {
+        return $query->where('status', 'pending_dryer');
+    }
+
+    public function scopePendingWasher($query)
+    {
+        return $query->where('status', 'pending_washer');
+    }
     
     public function scopeApproved($query)
     {
@@ -137,7 +146,7 @@ class Job extends Model
 
     public function scopePending($query)
     {
-        return $query->where('status', 'pending');
+        return $query->where('status', 'queue');
     }
 
     public function getStatusAttribute($value)
