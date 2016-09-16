@@ -52,8 +52,8 @@ class JobController extends Controller
         $job->save();
 
         event(new JobStatusChange($job));
-
-        foreach($job->washer->washJobs()->pendingWasher() as $otherJob) {
+        
+        foreach($job->washer->washJobs()->pendingWasher()->get() as $otherJob) {
             event(new JobStatusChange($otherJob));
         }
 
@@ -99,7 +99,7 @@ class JobController extends Controller
 
         event(new JobStatusChange($job));
 
-        foreach($job->dryer->dryJobs()->pendingDryer() as $otherJob) {
+        foreach($job->dryer->dryJobs()->pendingDryer()->get() as $otherJob) {
             event(new JobStatusChange($otherJob));
         }
 
