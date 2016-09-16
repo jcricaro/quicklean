@@ -41,19 +41,15 @@ class CheckReservations extends Command
      */
     public function handle(Job $job, Machine $machine)
     {
-        $job->where('status', 'pending')->whereNotNull('reserve_at')->whereBetween('reserve_at', [Carbon::now(), Carbon::now()->addMinutes(30)])->chunk(200, function ($jobs) use ($machine)
+        $job->where('status', 'approved')->whereNotNull('reserve_at')->whereBetween('reserve_at', [Carbon::now(), Carbon::now()->addMinutes(30)])->chunk(200, function ($jobs) use ($machine)
         {
             foreach($jobs as $job) {
-                $job->status = 'approved';
+                $job->status = 'pending_washer';
                 $job->approved_at = Carbon::now();
 
                 $washer = $machine->washer()->withCount('queueWasher')->orderBy('queue_washer_count')->first();
 
                 $job->washer()->associate($washer);
-
-                $dryer = $machine->dryer()->withCount('queueDryer')->orderBy('queue_dryer_count')->first();
-
-                $job->dryer()->associate($dryer);
 
                 $job->save();
 
