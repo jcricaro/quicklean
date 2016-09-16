@@ -255,7 +255,7 @@ class JobController extends Controller
      */
     public function getQueue(Job $job, Machine $machine)
     {
-        $reservations = $job->reservation()->where('status', '!=', 'declined')->orderBy('status', 'asc')->get();
+        $reservations = $job->reservation()->orderBy('status', 'asc')->get();
 
         $pending = $job->approved()->walkin()->get();
 

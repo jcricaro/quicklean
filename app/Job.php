@@ -167,7 +167,7 @@ class Job extends Model
 
     public function scopeReservation($query)
     {
-        return $query->whereNotNull('reserve_at');
+        return $query->whereNotNull('reserve_at')->whereIn('status', ['reserved', 'approved']);
     }
 
     public function scopeWalkin($query)
