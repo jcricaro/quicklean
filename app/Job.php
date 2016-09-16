@@ -30,7 +30,8 @@ class Job extends Model
         'fabric_conditioner',
         'is_press',
         'is_fold',
-        'reserve_at'
+        'reserve_at',
+        'status'
     ];
 
     /**
