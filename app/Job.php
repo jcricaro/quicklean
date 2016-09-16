@@ -303,4 +303,12 @@ class Job extends Model
     {
         $this->attributes['is_press'] = isset($value) ? true : false;
     }
+
+    public function isEditable()
+    {
+        if( in_array($this->status, ['Reserved', 'Approved']) ) {
+            return true;
+        }
+        return false;
+    }
 }

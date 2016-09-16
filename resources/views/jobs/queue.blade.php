@@ -48,9 +48,13 @@
 									{{ $reservation->status }}
 								</td>
 								<td>
+									@if($reservation->isEditable())
+									<a href="{{ url('/jobs') . '/' . $reservation->id . '/edit' }}" class="btn btn-default btn-xs">Edit</a>
+									@endif
+
 									@if($reservation->status !== 'Approved')
 									<form action="{{ url('/jobs/approve') . '/' . $reservation->id }}" method="POST">
-										<button type="submit" class="btn btn-xs">Approve</button>
+										<button type="submit" class="btn btn-default btn-xs">Approve</button>
 	                                    {{ csrf_field() }}
 	                                    {{ method_field('PUT') }}
 	                                </form>
@@ -106,6 +110,10 @@
 									{{ $pending->status }}
 								</td>
 								<td>
+									@if($pending->isEditable())
+									<a href="{{ url('/jobs') . '/' . $pending->id . '/edit' }}" class="btn btn-default btn-xs">Edit</a>
+									@endif
+
 									<form action="{{ url('/jobs/queue-washer') . '/' . $pending->id }}" method="POST">
                                         <button type="submit" class="btn btn-xs">Queue</button>
                                         {{ csrf_field() }}

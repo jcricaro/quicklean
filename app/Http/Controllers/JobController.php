@@ -11,6 +11,7 @@ use App\Machine;
 use App\Http\Requests\Job\AddJobReservationRequest;
 use App\Http\Requests\Job\AddJobWalkinRequest;
 use App\Events\JobStatusChange;
+use App\Http\Requests\Job\UpdateJobRequest;
 
 class JobController extends Controller
 {
@@ -161,9 +162,26 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateJobRequest $request, Job $job)
     {
-        //
+        $job->fill($request->only([
+            'name',
+            'phone',
+            'service_type',
+            'kilogram',
+            'washer_mode',
+            'dryer_mode',
+            'detergernt',
+            'bleach',
+            'fabric_conditioner',
+            'is_press',
+            'is_fold',
+            'reserve_at'
+            ]));
+
+        $job->save();
+
+        return redirect('/jobs/queue')->with('success', 'Job Updated!');
     }
 
     /**
