@@ -67,6 +67,8 @@ class JobController extends Controller
 
         $job->save();
 
+        event(new JobStatusChange($job));
+
         return redirect('/jobs/queue')->with('success', 'Job Approved');
     }
 
