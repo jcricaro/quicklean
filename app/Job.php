@@ -271,7 +271,10 @@ class Job extends Model
 
     public function getUuidAttribute()
     {
-        return str_pad($this->id, 5, '0', STR_PAD_LEFT);
+        if( is_null($this->reserve_at) ) {
+            return str_pad($this->id, 5, '0', STR_PAD_LEFT);    
+        }
+        return 'S' . $this->reserve_at->format('dmyA') . str_pad($this->id, 3, '0', STR_PAD_LEFT);
     }
 
     public function getQueueAttribute()
