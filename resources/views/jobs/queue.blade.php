@@ -277,7 +277,7 @@
 						<thead>
 							<tr>
                                 <th>
-                                    Id
+                                    Uuid
                                 </th>
                                 <th>
                                     Customer
@@ -322,7 +322,7 @@
 							@foreach($done as $job)
                              <tr>
                                  <td>
-                                     {{ $job->id }}
+                                     {{ $job->uuid }}
                                  </td>
                                  <td>
                                     {{ $job->name }}

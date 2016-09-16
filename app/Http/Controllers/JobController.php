@@ -49,6 +49,12 @@ class JobController extends Controller
 
         $job->save();
 
+        event(new JobStatusChange($job));
+
+        foreach($job->washer->washJobs()->pendingWasher() as $otherJob) {
+            event(new JobStatusChange($otherJob));
+        }
+
         return redirect('/jobs/queue')->with('success', 'Job Queued');
     }
 
@@ -88,6 +94,10 @@ class JobController extends Controller
         $job->save();
 
         event(new JobStatusChange($job));
+
+        foreach($job->dryer->dryJobs()->pendingDryer() as $otherJob) {
+            event(new JobStatusChange($otherJob));
+        }
 
         return redirect('/jobs/queue')->with('success', 'Job Done!');
     }
