@@ -146,9 +146,14 @@
 							<th>
 								Customer Name
 							</th>
+							<th>
+								Queue Number
+							</th>
 							<th></th>
 						</tr>
-						@foreach($machine->washJobs()->pendingWasher()->get() as $index => $job)
+						<?php $jobs = $machine->washJobs()->pendingWasher()->get(); ?>
+
+						@foreach($jobs as $index => $job)
 						@if( $index == 0 )
 						<tr class="info">
 						@else
@@ -159,6 +164,9 @@
 							</td>
 							<td>
 								{{ $job->name }}
+							</td>
+							<td>
+								{{ $job->queue }}
 							</td>
 							<td>
 								@if( $index == 0 )
@@ -210,6 +218,9 @@
 							<th>
 								Customer Name
 							</th>
+							<th>
+								Queue
+							</th>
 							<th></th>
 						</tr>
 						@foreach($machine->dryJobs()->pendingDryer()->get() as $index => $job)
@@ -223,6 +234,9 @@
 							</td>
 							<td>
 								{{ $job->name }}
+							</td>
+							<td>
+								{{ $job->queue }}
 							</td>
 							<td>
 								@if( $index == 0 )
@@ -251,7 +265,7 @@
 		@endforeach
 	</div>
 
-
+	@if($done->count() > 0)
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
@@ -373,5 +387,6 @@
 			</div>
 		</div>
 	</div>
+	@endif
 </div>
 @stop

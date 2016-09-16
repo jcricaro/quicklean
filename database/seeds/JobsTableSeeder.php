@@ -19,7 +19,7 @@ class JobsTableSeeder extends Seeder
 
         $faker = Faker::create();
 
-        foreach( range(1, 5) as $index ) {
+        foreach( range(1, 20) as $index ) {
 
             Job::create([
                 'name' => $faker->name,
@@ -37,7 +37,7 @@ class JobsTableSeeder extends Seeder
             ]);
         }
 
-        foreach( range(1, 5) as $index ) {
+        foreach( range(1, 20) as $index ) {
             Job::create([
                 'name' => $faker->name,
                 'phone' => $faker->phoneNumber,

@@ -151,7 +151,7 @@ class Job extends Model
 
     public function getStatusAttribute($value)
     {
-        return ucfirst($value);
+        return ucfirst(str_replace('_', ' ', $value));
     }
 
     public function washer()
@@ -270,13 +270,21 @@ class Job extends Model
 
     public function getQueueAttribute()
     {
-        if( $this->washer ) {
-            return [
-                'washer' => $this->washer->washJobs()->approved()->count(),
-                'dryer' => $this->dryer->dryJobs()->approved()->count()
-            ];   
+        
+        if($this->status == 'Pending washer') {
+            $machine = $this->washer;
+            $jobs = $machine->washJobs()->pendingWasher()->get();
+        } elseif ($this->status == 'Pending dryer') {
+            $machine = $this->dryer;
+            $jobs = $machine->dryJobs()->pendingDryer()->get();
+        } else {
+            return null;
         }
 
-        return null;
+        foreach($jobs as $index => $job) {
+            if($job->id == $this->id) {
+                return $index + 1;
+            }
+        }
     }
 }

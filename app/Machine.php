@@ -26,12 +26,12 @@ class Machine extends Model
 
     public function queueWasher()
     {
-        return $this->washJobs()->where('status', 'approved')->orderBy('approved_at', 'asc');
+        return $this->washJobs()->where('status', 'pending_washer')->orderBy('approved_at', 'asc');
     }
 
     public function queueDryer()
     {
-        return $this->dryJobs()->where('status', 'approved')->orderBy('approved_at', 'asc');   
+        return $this->dryJobs()->where('status', 'pending_dryer')->orderBy('approved_at', 'asc');   
     }
 
     public function queue()
