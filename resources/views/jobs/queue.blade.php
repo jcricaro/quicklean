@@ -48,11 +48,13 @@
 									{{ $reservation->status }}
 								</td>
 								<td>
+									@if($reservation->status !== 'Approved')
 									<form action="{{ url('/jobs/approve') . '/' . $reservation->id }}" method="POST">
 										<button type="submit" class="btn btn-xs">Approve</button>
 	                                    {{ csrf_field() }}
 	                                    {{ method_field('PUT') }}
 	                                </form>
+	                                @endif
 									<form action="{{ url('/jobs/decline') . '/' . $reservation->id }}" method="POST">
 										<button type="submit" class="btn btn-danger btn-xs">Decline</button>
 	                                    {{ csrf_field() }}
