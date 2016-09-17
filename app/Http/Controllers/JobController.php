@@ -238,7 +238,7 @@ class JobController extends Controller
 
     public function storeWalkin(AddJobWalkinRequest $request, Job $job, Machine $machine)
     {
-        $job = $job->create(array_merge($request->only([
+        $job = $job->create($request->only([
             'name',
             'phone',
             'service_type',
@@ -253,7 +253,9 @@ class JobController extends Controller
             'bleach_qty',
             'detergent_qty',
             'fabric_conditioner_qty'
-            ])), ['status' => 'approved']);
+            ]));
+
+        $job->status = 'approved';
 
         $job->save();
 
