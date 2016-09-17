@@ -193,13 +193,13 @@ class Job extends Model
 
         switch ($this->detergent) {          
             case 'Ariel':
-                $total += 12;
+                $total += 12 * $this->detergent_qty;
                 break;
             case 'Tide':
-                $total += 10;
+                $total += 10 * $this->detergent_qty;
                 break;
             case 'Pride':
-                $total += 6;
+                $total += 6 * $this->detergent_qty;
                 break;
             default:
                 # code...
@@ -207,14 +207,14 @@ class Job extends Model
         }
 
         if($this->fabric_conditioner == 'Downy') {
-            $total += 10;
+            $total += 10 * $this->fabric_conditioner;
         }
 
         switch ($this->bleach) {
             case 'Colorsafe':
-                $total += 5;
+                $total += (5 * $this->bleach_qty);
             case 'Original':
-                $total += 12;
+                $total += (12 * $this->bleach_qty);
             default:
                 # code...
                 break;

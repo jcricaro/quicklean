@@ -255,18 +255,6 @@ class JobController extends Controller
             'fabric_conditioner_qty'
             ])), ['status' => 'approved']);
 
-        // assign to washer with the least amount of pending
-        
-        $washer = $machine->washer()->withCount('queueWasher')->orderBy('queue_washer_count')->first();
-
-        $job->washer()->associate($washer);
-
-        // assign to dryer with the least amount of pending
-        
-        $dryer = $machine->dryer()->withCount('queueDryer')->orderBy('queue_dryer_count')->first();
-
-        $job->dryer()->associate($dryer);
-
         $job->save();
 
         return redirect('/jobs/queue')->with('success', 'Job Approved');
