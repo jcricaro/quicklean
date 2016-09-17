@@ -25,7 +25,7 @@ class AddJobWalkinRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'phone' => 'required'
+            'phone' => 'required|digits:11'
         ];
     }
 }
