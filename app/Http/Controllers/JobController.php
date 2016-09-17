@@ -220,6 +220,8 @@ class JobController extends Controller
             'reserve_at'
             ]));
 
+        $job->status = 'reserved';
+
         $job->save();
 
         return redirect('/jobs/reservations?page=' . $request->get('page', 1))->with('success', 'Job Reserved');
