@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Job\AddJobReservationRequest;
 use App\Job;
-use App\Http\Requests\Job\AddJobReservationRequest;
+use App\Http\Requests\Job\AddJobWalkinReqeust;
 
 class JobController extends Controller
 {
