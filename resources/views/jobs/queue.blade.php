@@ -29,6 +29,9 @@
 									Status
 								</th>
 								<th>
+									Bill
+								</th>
+								<th>
 								</th>
 							</tr>
 						</thead>
@@ -48,6 +51,159 @@
 									{{ $reservation->status }}
 								</td>
 								<td>
+									{{ 'PHP ' . $reservation->total_bill }}
+								</td>
+								<td>
+									<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modal-{{ $reservation->id }}">
+										Details
+									</button>
+
+									<div class="modal fade" id="modal-{{ $reservation->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+										<div class="modal-dialog modal-sm" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+													<h4 class="modal-title" id="myModalLabel">Job Details</h4>
+												</div>
+												<div class="modal-body">
+													<table class="table">
+														<thead>
+															<tr>
+																<th>
+																	
+																</th>
+																<th>
+																	
+																</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>
+																	Uuid
+																</td>
+																<td>
+																	{{ $reservation->uuid }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Customer
+																</td>
+																<td>
+																	{{ $reservation->name }}
+								                                    <br/>
+								                                    {{ $reservation->phone }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Service Type
+																</td>
+																<td>
+																	{{ $reservation->service_type }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Kilogram
+																</td>
+																<td>
+																	{{ $reservation->kilogram }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Washer Mode
+																</td>
+																<td>
+																	{{ $reservation->washer_mode }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Dryer Mode
+																</td>
+																<td>
+																	{{ $reservation->dryer_mode }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Detergent
+																</td>
+																<td>
+																	{{ $reservation->detergent }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Bleach
+																</td>
+																<td>
+																	{{ $reservation->bleach }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Fabric Conditoner
+																</td>
+																<td>
+																	{{ $reservation->fabric_conditioner }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Services
+																</td>
+																<td>
+																	<ul class="list-unstyled">
+																		@if($reservation->is_press)
+																		<li>Press</li>
+																		@endif
+																		@if($reservation->is_fold)
+																		<li>Fold</li>
+																		@endif
+																	</ul>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Machine
+																</td>
+																<td>
+																	<ul class="list-unstyled">
+								                                        <li>{{ $reservation->washer ? $reservation->washer->name : '' }}</li>
+								                                        <li>{{ $reservation->dryer ? $reservation->dryer->name : '' }}</li>
+								                                     </ul>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Status
+																</td>
+																<td>
+																	{{ $reservation->status }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Total Bill
+																</td>
+																<td>
+																	{{ $reservation->totalBill }}
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+
 									@if($reservation->isEditable())
 									<a href="{{ url('/jobs') . '/' . $reservation->id . '/edit' }}" class="btn btn-default btn-xs">Edit</a>
 									@endif
@@ -94,6 +250,9 @@
 									Status
 								</th>
 								<th>
+									Bill
+								</th>
+								<th>
 								</th>
 							</tr>
 						</thead>
@@ -108,6 +267,9 @@
 								</td>
 								<td>
 									{{ $pending->status }}
+								</td>
+								<td>
+									{{ 'PHP ' . $pending->total_bill }}
 								</td>
 								<td>
 									@if($pending->isEditable())
@@ -399,4 +561,8 @@
 	</div>
 	@endif
 </div>
+@stop
+
+@section('scripts')
+
 @stop

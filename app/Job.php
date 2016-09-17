@@ -188,14 +188,14 @@ class Job extends Model
             $total += 35;
         }
 
-        switch ($this->detergent) {
-            case 'ariel':
+        switch ($this->detergent) {          
+            case 'Ariel':
                 $total += 12;
                 break;
-            case 'tide':
+            case 'Tide':
                 $total += 10;
                 break;
-            case 'pride':
+            case 'Pride':
                 $total += 6;
                 break;
             default:
@@ -203,19 +203,20 @@ class Job extends Model
                 break;
         }
 
-        if($this->fabric_conditioner == 'downy') {
+        if($this->fabric_conditioner == 'Downy') {
             $total += 10;
         }
 
         switch ($this->bleach) {
-            case 'colorsafe':
+            case 'Colorsafe':
                 $total += 5;
-            case 'original':
+            case 'Original':
                 $total += 12;
             default:
                 # code...
                 break;
         }
+
         switch ($this->washer_mode) {
             case 'Clean':
                 if($this->kilogram == '8 kg') {
