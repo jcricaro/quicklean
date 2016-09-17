@@ -31,6 +31,8 @@ class JobController extends Controller
             'fabric_conditioner_qty'
             ])), ['status' => 'approved']);
 
+        $job->status = 'approved';
+
         $job->save();
 
         return response()->json([
@@ -59,6 +61,10 @@ class JobController extends Controller
             'detergent_qty',
             'fabric_conditioner_qty'
     		]));
+
+        $job->status = 'reserved';
+
+        $job->save();
     	
     	return response()->json([
     		'message' => 'Reserved',
