@@ -188,7 +188,11 @@ class Job extends Model
         $total = 0;
 
         if($this->is_fold) {
-            $total += 35;
+            if($this->kilogram == '8 kg') {
+                $total += 40;
+            } else {
+                $total += 80;    
+            }
         }
 
         switch ($this->detergent) {          
