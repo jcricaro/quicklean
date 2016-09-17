@@ -8,11 +8,11 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Job\AddJobReservationRequest;
 use App\Job;
-use App\Http\Requests\Job\AddJobWalkinReqeust;
+use App\Http\Requests\Job\AddJobWalkinRequest;
 
 class JobController extends Controller
 {
-    public function storeWalkin(AddJobWalkinReqeust $request, Job $job)
+    public function storeWalkin(AddJobWalkinRequest $request, Job $job)
     {
         $job = $job->create(array_merge($request->only([
             'name',
