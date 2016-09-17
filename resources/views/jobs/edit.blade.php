@@ -101,15 +101,6 @@
 							</label>
 						</div>
 
-						@if( ! is_null($job->reserve_at) )
-
-						<div class="form-group">
-							<label for="time">Time</label>
-							<input type="datetime-local" class="form-control">
-						</div>
-
-						@endif
-
 						{{ csrf_field() }}
 
 						<button type="submit" class="btn btn-default">Update</button>

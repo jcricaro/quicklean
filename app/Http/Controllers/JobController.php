@@ -178,8 +178,7 @@ class JobController extends Controller
             'bleach',
             'fabric_conditioner',
             'is_press',
-            'is_fold',
-            'reserve_at'
+            'is_fold'
             ]));
 
         $job->save();
