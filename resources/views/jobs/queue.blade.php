@@ -133,7 +133,7 @@
 																	Detergent
 																</td>
 																<td>
-																	{{ $reservation->detergent }}
+																	{{ $reservation->detergent_qty }} x {{ $reservation->detergent }}
 																</td>
 															</tr>
 															<tr>
@@ -141,7 +141,7 @@
 																	Bleach
 																</td>
 																<td>
-																	{{ $reservation->bleach }}
+																	{{ $reservation->bleach_qty }} x {{ $reservation->bleach }}
 																</td>
 															</tr>
 															<tr>
@@ -149,7 +149,7 @@
 																	Fabric Conditoner
 																</td>
 																<td>
-																	{{ $reservation->fabric_conditioner }}
+																	{{ $reservation->fabric_conditioner_qty }} x {{ $reservation->fabric_conditioner }}
 																</td>
 															</tr>
 															<tr>
@@ -351,7 +351,7 @@
 																	Detergent
 																</td>
 																<td>
-																	{{ $pending->detergent }}
+																	{{ $pending->detergent }} x {{ $pending->detergent }}
 																</td>
 															</tr>
 															<tr>
@@ -359,7 +359,7 @@
 																	Bleach
 																</td>
 																<td>
-																	{{ $pending->bleach }}
+																	{{ $pending->bleach_qty }} x {{ $pending->bleach }}
 																</td>
 															</tr>
 															<tr>
@@ -367,7 +367,7 @@
 																	Fabric Conditoner
 																</td>
 																<td>
-																	{{ $pending->fabric_conditioner }}
+																	{{ $pending->fabric_conditioner_qty }} x {{ $pending->fabric_conditioner }}
 																</td>
 															</tr>
 															<tr>
