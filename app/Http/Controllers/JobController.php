@@ -136,7 +136,10 @@ class JobController extends Controller
             'bleach',
             'fabric_conditioner',
             'is_press',
-            'is_fold'
+            'is_fold',
+            'bleach_qty',
+            'detergent_qty',
+            'fabric_conditioner_qty'
             ]));
 
         $job->save();
@@ -210,11 +213,12 @@ class JobController extends Controller
             'bleach',
             'fabric_conditioner',
             'is_press',
-            'is_fold'
+            'is_fold',
+            'bleach_qty',
+            'detergent_qty',
+            'fabric_conditioner_qty',
+            'reserve_at'
             ]));
-
-
-        $job->reservation = date('Y-m-d H:i:s', strtotime($request->get('time')));
 
         $job->save();
 
@@ -245,7 +249,10 @@ class JobController extends Controller
             'bleach',
             'fabric_conditioner',
             'is_press',
-            'is_fold'
+            'is_fold',
+            'bleach_qty',
+            'detergent_qty',
+            'fabric_conditioner_qty'
             ])), ['status' => 'approved']);
 
         // assign to washer with the least amount of pending

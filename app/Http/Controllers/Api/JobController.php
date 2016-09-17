@@ -25,7 +25,10 @@ class JobController extends Controller
             'bleach',
             'fabric_conditioner',
             'is_press',
-            'is_fold'
+            'is_fold',
+            'bleach_qty',
+            'detergent_qty',
+            'fabric_conditioner_qty'
             ])), ['status' => 'approved']);
 
         $job->save();
@@ -51,7 +54,10 @@ class JobController extends Controller
     		'is_press',
     		'is_fold',
     		'status',
-    		'reserve_at'
+    		'reserve_at',
+            'bleach_qty',
+            'detergent_qty',
+            'fabric_conditioner_qty'
     		]));
     	
     	return response()->json([

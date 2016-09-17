@@ -25,7 +25,10 @@ class AddJobWalkinRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'phone' => 'required|digits:11'
+            'phone' => 'required|digits:11',
+            'bleach_qty' => 'numeric',
+            'detergent_qty' => 'numeric',
+            'fabric_conditioner_qty' => 'numeric'
         ];
     }
 }

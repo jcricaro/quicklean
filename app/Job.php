@@ -31,7 +31,10 @@ class Job extends Model
         'is_press',
         'is_fold',
         'reserve_at',
-        'status'
+        'status',
+        'detergent_qty',
+        'bleach_qty',
+        'fabric_conditioner_qty'
     ];
 
     /**
