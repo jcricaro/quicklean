@@ -211,7 +211,7 @@ class Job extends Model
         }
 
         if($this->fabric_conditioner == 'Downy') {
-            $total += 10 * $this->fabric_conditioner;
+            $total += 10 * $this->fabric_conditioner_qty;
         }
 
         switch ($this->bleach) {
