@@ -272,6 +272,156 @@
 									{{ 'PHP ' . $pending->total_bill }}
 								</td>
 								<td>
+									<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modal-{{ $pending->id }}">
+										Details
+									</button>
+
+									<div class="modal fade" id="modal-{{ $pending->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+										<div class="modal-dialog modal-sm" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+													<h4 class="modal-title" id="myModalLabel">Job Details</h4>
+												</div>
+												<div class="modal-body">
+													<table class="table">
+														<thead>
+															<tr>
+																<th>
+																	
+																</th>
+																<th>
+																	
+																</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>
+																	Uuid
+																</td>
+																<td>
+																	{{ $pending->uuid }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Customer
+																</td>
+																<td>
+																	{{ $pending->name }}
+									                                <br/>
+									                                {{ $pending->phone }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Service Type
+																</td>
+																<td>
+																	{{ $pending->service_type }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Kilogram
+																</td>
+																<td>
+																	{{ $pending->kilogram }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Washer Mode
+																</td>
+																<td>
+																	{{ $pending->washer_mode }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Dryer Mode
+																</td>
+																<td>
+																	{{ $pending->dryer_mode }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Detergent
+																</td>
+																<td>
+																	{{ $pending->detergent }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Bleach
+																</td>
+																<td>
+																	{{ $pending->bleach }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Fabric Conditoner
+																</td>
+																<td>
+																	{{ $pending->fabric_conditioner }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Services
+																</td>
+																<td>
+																	<ul class="list-unstyled">
+																		@if($pending->is_press)
+																		<li>Press</li>
+																		@endif
+																		@if($pending->is_fold)
+																		<li>Fold</li>
+																		@endif
+																	</ul>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Machine
+																</td>
+																<td>
+																	<ul class="list-unstyled">
+									                                    <li>{{ $pending->washer ? $pending->washer->name : '' }}</li>
+									                                    <li>{{ $pending->dryer ? $pending->dryer->name : '' }}</li>
+									                                 </ul>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Status
+																</td>
+																<td>
+																	{{ $pending->status }}
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	Total Bill
+																</td>
+																<td>
+																	{{ $pending->totalBill }}
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>						
+
 									@if($pending->isEditable())
 									<a href="{{ url('/jobs') . '/' . $pending->id . '/edit' }}" class="btn btn-default btn-xs">Edit</a>
 									@endif
