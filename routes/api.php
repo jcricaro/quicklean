@@ -29,5 +29,9 @@ Route::group(['namespace' => 'Api'], function()
 	Route::group(['namespace' => 'User', 'prefix' => '/me', 'middleware' => 'auth:api'], function()
 	{
 		Route::get('/', 'ProfileController@user');
+		Route::get('/jobs', 'JobController@index');
+		Route::post('/jobs/walk-in', 'JobController@storeWalkin');
+		Route::get('/jobs/{jobs}', 'JobController@show');
+		Route::post('/jobs', 'JobController@store');
 	});
 });
