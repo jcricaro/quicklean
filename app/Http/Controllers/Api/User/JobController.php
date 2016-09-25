@@ -20,7 +20,7 @@ class JobController extends Controller
     	return response()->json(['data' => $user->jobs->all()]);
     }
 
-    public function store(AddJobReservationRequest $request)
+    public function store(AddJobReservationRequest $request, Job $job)
     {
     	$job = $job->create($request->only([
     		'name',
