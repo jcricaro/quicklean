@@ -30,7 +30,7 @@ class UserController extends Controller
     public function store(AddUserRequest $request, User $user)
     {
         $user = $user->fill($request->only([
-            'email'
+            'email',
             'name'
             ]));
 
