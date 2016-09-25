@@ -85,6 +85,6 @@ class JobController extends Controller
     {
     	return response()->json([
     		'data' => $job->toArray()
-    		])
+    		]);
     }
 }
