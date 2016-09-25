@@ -9,9 +9,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Job\AddJobReservationRequest;
 use App\Job;
 use App\Http\Requests\Job\AddJobWalkinRequest;
+use Carbon\Carbon;
 
 class JobController extends Controller
 {
+    public function pay(Job $job)
+    {
+        $job->paid_at = Carbon::now();
+        $job->save();
+
+        return response()->json([
+            'message' => 'success'
+            ]);
+    }
+
     public function storeWalkin(AddJobWalkinRequest $request, Job $job)
     {
         $job = $job->create(array_merge($request->only([
