@@ -28,7 +28,7 @@ Route::group(['namespace' => 'Api'], function()
 	Route::post('/jobs', 'JobController@store');
 	Route::post('/jobs/walk-in', 'JobController@storeWalkin');
 	Route::get('/jobs/{jobs}', 'JobController@show');
-	Route::get('/machines', 'MachineController@all')	
+	Route::get('/machines', 'MachineController@all');
 
 	Route::group(['namespace' => 'User', 'prefix' => '/me', 'middleware' => 'auth:api'], function()
 	{
