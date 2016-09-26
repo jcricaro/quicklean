@@ -23,9 +23,10 @@ class Machine extends Model
     public function getAvailabilityAttribute()
     {
         if( $this->type == 'Washer' ) {
-            return $this->washJobs()->approved()->count() . ' Jobs Pending';
+            return $this->washJobs()->pendingWasher()->count() . ' Jobs Pending';
         }
-    	return $this->dryJobs()->approved()->count() . ' Jobs Pending';
+        
+    	return $this->dryJobs()->pendingDryer()->count() . ' Jobs Pending';
     }
 
     public function queueWasher()
