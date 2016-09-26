@@ -19,13 +19,16 @@ Route::get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'Api'], function()
 {
+	Route::put('/jobs/done-washer/{jobs}','JobController@queueDryer');
+	Route::put('/jobs/done-dryer/{jobs}', 'JobController@done');
+
 	Route::post('/jobs/pay/{jobs}', 'JobController@pay');
 	Route::post('/users', 'UserController@store');
 	Route::put('/jobs/cancel/{jobs}', 'JobController@cancel');
 	Route::post('/jobs', 'JobController@store');
 	Route::post('/jobs/walk-in', 'JobController@storeWalkin');
 	Route::get('/jobs/{jobs}', 'JobController@show');
-	Route::get('/machines', 'MachineController@all');
+	Route::get('/machines', 'MachineController@all')	
 
 	Route::group(['namespace' => 'User', 'prefix' => '/me', 'middleware' => 'auth:api'], function()
 	{
