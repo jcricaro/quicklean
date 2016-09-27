@@ -28,7 +28,7 @@ class AddJobWalkinRequest extends FormRequest
             'phone' => 'required|digits:11',
             'bleach_qty' => 'numeric',
             'detergent_qty' => 'numeric',
-            'fabric_conditioner_qty' => 'numeric'
+            'fabric_conditioner_qty' => 'numeric|max:8'
         ];
     }
 }
