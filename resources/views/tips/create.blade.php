@@ -6,7 +6,7 @@
 		<div class="col-md-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Edit Tip
+					Add Tip
 				</div>
 				<div class="panel-body">
 					@foreach($errors->all() as $error)
@@ -15,16 +15,15 @@
 					</div>
 					@endforeach
 
-					<form action="{{ url('/tips') . '/' . $tip->id }}" method="post">
-						{{ method_field('PUT') }}
+					<form action="{{ url('/tips') }}" method="post">
 						<div class="form-group">
 							<label for="title">Title</label>
-							<input type="text" name="title" placeholder="Title" class="form-control" value="{{ $tip->title }}">
+							<input type="text" name="title" placeholder="Title" class="form-control">
 						</div>
 
 						<div class="form-group">
 							<textarea name="content" id="content" cols="80" rows="10">
-								{{ $tip->content }}
+								
 							</textarea>
 
 							<script>

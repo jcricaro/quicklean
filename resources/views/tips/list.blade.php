@@ -6,7 +6,10 @@
 		<div class="col-md-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Tips
+					<div class="clearfix">
+						<span class="pull-left">Tips</span>
+						<a href="{{ url('/tips/create') }}" class="btn btn-xs pull-right">Add</a>
+					</div>
 				</div>
 				<div class="panel-body">
 					<table class="table table-striped">

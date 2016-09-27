@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Tip;
+use App\Http\Requests\Tip\AddTipRequest;
 
 class TipController extends Controller
 {
@@ -26,7 +27,7 @@ class TipController extends Controller
      */
     public function create()
     {
-        //
+        return view('tips.create');
     }
 
     /**
@@ -35,20 +36,11 @@ class TipController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddTipRequest $request, Tip $tip)
     {
-        //
-    }
+        $tip->create($request->only(['title', 'content']));
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()->to('/tips')->with('success', 'Tip created!');
     }
 
     /**
@@ -74,7 +66,7 @@ class TipController extends Controller
         $tip->fill($request->only(['title', 'content']));
         $tip->save();
         
-        return redirect()->to('/tips')->with('message', 'Tip updated');   
+        return redirect()->to('/tips')->with('success', 'Tip updated');   
     }
 
     /**
@@ -83,8 +75,10 @@ class TipController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tip $tip)
     {
-        //
+        $tip->delete();
+
+        return redirect('/tips')->with('success', 'Tip deleted');
     }
 }
