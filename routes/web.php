@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function()
 	Route::put('/jobs/paid/{jobs}', 'JobController@paid');
 	Route::resource('/jobs', 'JobController');
 	Route::resource('/machines', 'MachineController');
+	Route::resource('/tips', 'TipController');
 
 	Route::get('/reports', 'ReportController@home');
 });

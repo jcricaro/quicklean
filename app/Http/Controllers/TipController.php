@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Tip;
 
 class TipController extends Controller
 {
@@ -13,9 +14,9 @@ class TipController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Tip $tip)
     {
-        //
+        return view('tips.list')->with('tips', $tip->all());
     }
 
     /**
