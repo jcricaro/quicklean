@@ -57,6 +57,7 @@
                         
                     </li>
                     <li><a href="{{ url('/machines') }}">Machines</a></li>
+                    <li><a href="{{ url('/tips') }}">Tips</a></li>
                     <li><a href="{{ url('/reports') }}">Reports</a></li>
                     @endif
                 </ul>
