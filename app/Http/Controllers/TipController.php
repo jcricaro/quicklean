@@ -59,7 +59,7 @@ class TipController extends Controller
      */
     public function edit(Tip $tip)
     {
-        return view('tips.edit');
+        return view('tips.edit')->with('tip', $tip);
     }
 
     /**
@@ -69,9 +69,12 @@ class TipController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tip $tip)
     {
-        //
+        $tip->fill($request->only(['title', 'content']));
+        $tip->save();
+        
+        return redirect()->to('/tips')->with('message', 'Tip updated');   
     }
 
     /**

@@ -15,6 +15,9 @@
 								<th>
 									Title
 								</th>
+								<th class="col-md-1">
+									
+								</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -22,6 +25,9 @@
 							<tr>
 								<td>
 									{{ $tip->title }}
+								</td>
+								<td>
+									<a href="{{ url('/tips') . '/' . $tip->id . '/edit' }}" class="btn btn-default btn-xs">Edit</a>
 								</td>
 							</tr>
 							@endforeach
