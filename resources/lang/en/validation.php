@@ -97,6 +97,10 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'reserve_at' => [
+            'within_week' => 'The value must be within the week',
+            'time' => 'The time must be within 7am to 5pm'
+        ]
     ],
 
     /*
