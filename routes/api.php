@@ -19,6 +19,7 @@ Route::get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'Api'], function()
 {
+	Route::get('/tips', 'JobController@index');
 	Route::put('/jobs/done-washer/{jobs}','JobController@queueDryer');
 	Route::put('/jobs/done-dryer/{jobs}', 'JobController@done');
 
