@@ -194,6 +194,14 @@ class Job extends Model
                 $total += 80;    
             }
         }
+        
+        if($this->is_press) {
+            if($this->kilogram == '8 kg') {
+                $total += 40;
+            } else {
+                $total += 80;    
+            }
+        }
 
         switch ($this->detergent) {          
             case 'Ariel':
