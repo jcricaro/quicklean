@@ -56,6 +56,7 @@ class JobController extends Controller
 
     public function pay(Job $job)
     {
+        $job->status = 'approved';
         $job->paid_at = Carbon::now();
         $job->save();
 
