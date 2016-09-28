@@ -14,4 +14,9 @@ class TipController extends Controller
     {
     	return response()->json(['data' => $tip->all()]);
     }
+
+    public function show(Tip $tip)
+    {
+    	return response()->json(['data' => $tip]);
+    }
 }
