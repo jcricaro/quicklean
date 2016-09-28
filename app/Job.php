@@ -30,7 +30,11 @@ class Job extends Model
         'fabric_conditioner',
         'is_press',
         'is_fold',
-        'reserve_at'
+        'reserve_at',
+        'status',
+        'detergent_qty',
+        'bleach_qty',
+        'fabric_conditioner_qty'
     ];
 
     /**
@@ -119,6 +123,20 @@ class Job extends Model
         return ucfirst( str_replace('_', ' ', $value) );
     }
 
+    public function scopePaid($query)
+    {
+        return $query->where('status', 'paid');
+    }
+
+    public function scopePendingDryer($query)
+    {
+        return $query->where('status', 'pending_dryer');
+    }
+
+    public function scopePendingWasher($query)
+    {
+        return $query->where('status', 'pending_washer');
+    }
     
     public function scopeApproved($query)
     {
@@ -137,12 +155,12 @@ class Job extends Model
 
     public function scopePending($query)
     {
-        return $query->where('status', 'pending');
+        return $query->where('status', 'queue');
     }
 
     public function getStatusAttribute($value)
     {
-        return ucfirst($value);
+        return ucfirst(str_replace('_', ' ', $value));
     }
 
     public function washer()
@@ -157,7 +175,7 @@ class Job extends Model
 
     public function scopeReservation($query)
     {
-        return $query->whereNotNull('reserve_at');
+        return $query->whereNotNull('reserve_at')->whereIn('status', ['reserved', 'approved']);
     }
 
     public function scopeWalkin($query)
@@ -170,37 +188,50 @@ class Job extends Model
         $total = 0;
 
         if($this->is_fold) {
-            $total += 35;
+            if($this->kilogram == '8 kg') {
+                $total += 40;
+            } else {
+                $total += 80;    
+            }
+        }
+        
+        if($this->is_press) {
+            if($this->kilogram == '8 kg') {
+                $total += 40;
+            } else {
+                $total += 80;    
+            }
         }
 
-        switch ($this->detergent) {
-            case 'ariel':
-                $total += 12;
+        switch ($this->detergent) {          
+            case 'Ariel':
+                $total += 12 * $this->detergent_qty;
                 break;
-            case 'tide':
-                $total += 10;
+            case 'Tide':
+                $total += 10 * $this->detergent_qty;
                 break;
-            case 'pride':
-                $total += 6;
+            case 'Pride':
+                $total += 6 * $this->detergent_qty;
                 break;
             default:
                 # code...
                 break;
         }
 
-        if($this->fabric_conditioner == 'downy') {
-            $total += 10;
+        if($this->fabric_conditioner == 'Downy') {
+            $total += 10 * $this->fabric_conditioner_qty;
         }
 
         switch ($this->bleach) {
-            case 'colorsafe':
-                $total += 5;
-            case 'original':
-                $total += 12;
+            case 'Colorsafe':
+                $total += (5 * $this->bleach_qty);
+            case 'Original':
+                $total += (12 * $this->bleach_qty);
             default:
                 # code...
                 break;
         }
+
         switch ($this->washer_mode) {
             case 'Clean':
                 if($this->kilogram == '8 kg') {
@@ -256,18 +287,47 @@ class Job extends Model
 
     public function getUuidAttribute()
     {
-        return str_pad($this->id, 5, '0', STR_PAD_LEFT);
+        if( is_null($this->reserve_at) ) {
+            return str_pad($this->id, 5, '0', STR_PAD_LEFT);    
+        }
+        return 'S' . $this->reserve_at->format('dmyA') . str_pad($this->id, 3, '0', STR_PAD_LEFT);
     }
 
     public function getQueueAttribute()
     {
-        if( $this->washer ) {
-            return [
-                'washer' => $this->washer->washJobs()->approved()->count(),
-                'dryer' => $this->dryer->dryJobs()->approved()->count()
-            ];   
+        
+        if($this->status == 'Pending washer') {
+            $machine = $this->washer;
+            $jobs = $machine->washJobs()->pendingWasher()->get();
+        } elseif ($this->status == 'Pending dryer') {
+            $machine = $this->dryer;
+            $jobs = $machine->dryJobs()->pendingDryer()->get();
+        } else {
+            return null;
         }
 
-        return null;
+        foreach($jobs as $index => $job) {
+            if($job->id == $this->id) {
+                return $index + 1;
+            }
+        }
+    }
+
+    public function setIsFoldAttribute($value)
+    {
+        $this->attributes['is_fold'] = isset($value) ? true : false;
+    }
+
+    public function setIsPressAttribute($value)
+    {
+        $this->attributes['is_press'] = isset($value) ? true : false;
+    }
+
+    public function isEditable()
+    {
+        if( in_array($this->status, ['Reserved', 'Approved']) ) {
+            return true;
+        }
+        return false;
     }
 }

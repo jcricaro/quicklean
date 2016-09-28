@@ -11,6 +11,7 @@ use App\Machine;
 use App\Http\Requests\Job\AddJobReservationRequest;
 use App\Http\Requests\Job\AddJobWalkinRequest;
 use App\Events\JobStatusChange;
+use App\Http\Requests\Job\UpdateJobRequest;
 
 class JobController extends Controller
 {
@@ -26,24 +27,48 @@ class JobController extends Controller
         return view('jobs.list')->with('jobs', $jobs);
     }
 
-    public function approve(Job $job, Request $request, Machine $machine)
+    public function queueWasher(Job $job, Machine $machine)
     {
-        $job->status = 'approved';
-        $job->approved_at = Carbon::now();
-
-        // assign to washer with the least amount of pending
+        $job->status = 'pending_washer';
         
         $washer = $machine->washer()->withCount('queueWasher')->orderBy('queue_washer_count')->first();
 
         $job->washer()->associate($washer);
 
-        // assign to dryer with the least amount of pending
-        
+        $job->save();
+
+        event(new JobStatusChange($job));
+
+        return redirect('/jobs/queue')->with('success', 'Job Queued');
+    }
+
+    public function queueDryer(Job $job, Machine $machine)
+    {
+        $job->status = 'pending_dryer';
+
         $dryer = $machine->dryer()->withCount('queueDryer')->orderBy('queue_dryer_count')->first();
 
         $job->dryer()->associate($dryer);
 
         $job->save();
+
+        event(new JobStatusChange($job));
+        
+        foreach($job->washer->washJobs()->pendingWasher()->get() as $otherJob) {
+            event(new JobStatusChange($otherJob));
+        }
+
+        return redirect('/jobs/queue')->with('success', 'Job Queued');
+    }
+
+    public function approve(Job $job, Request $request, Machine $machine)
+    {
+        $job->status = 'approved';
+        $job->approved_at = Carbon::now();
+
+        $job->save();
+
+        event(new JobStatusChange($job));
 
         return redirect('/jobs/queue')->with('success', 'Job Approved');
     }
@@ -75,7 +100,21 @@ class JobController extends Controller
 
         event(new JobStatusChange($job));
 
+        foreach($job->dryer->dryJobs()->pendingDryer()->get() as $otherJob) {
+            event(new JobStatusChange($otherJob));
+        }
+
         return redirect('/jobs/queue')->with('success', 'Job Done!');
+    }
+
+    public function paid(Job $job)
+    {
+        $job->status = 'paid';
+        $job->save();
+
+        event(new JobStatusChange($job));
+
+        return redirect('/jobs/queue')->with('success', 'Job Paid!');
     }
 
     /**
@@ -97,7 +136,10 @@ class JobController extends Controller
             'bleach',
             'fabric_conditioner',
             'is_press',
-            'is_fold'
+            'is_fold',
+            'bleach_qty',
+            'detergent_qty',
+            'fabric_conditioner_qty'
             ]));
 
         $job->save();
@@ -111,9 +153,9 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Job $job)
     {
-        //
+        return view('jobs.edit')->with('job', $job);
     }
 
     /**
@@ -123,9 +165,25 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateJobRequest $request, Job $job)
     {
-        //
+        $job->fill($request->only([
+            'name',
+            'phone',
+            'service_type',
+            'kilogram',
+            'washer_mode',
+            'dryer_mode',
+            'detergernt',
+            'bleach',
+            'fabric_conditioner',
+            'is_press',
+            'is_fold'
+            ]));
+
+        $job->save();
+
+        return redirect('/jobs/queue')->with('success', 'Job Updated!');
     }
 
     /**
@@ -154,11 +212,14 @@ class JobController extends Controller
             'bleach',
             'fabric_conditioner',
             'is_press',
-            'is_fold'
+            'is_fold',
+            'bleach_qty',
+            'detergent_qty',
+            'fabric_conditioner_qty',
+            'reserve_at'
             ]));
 
-
-        $job->reservation = date('Y-m-d H:i:s', strtotime($request->get('time')));
+        $job->status = 'reserved';
 
         $job->save();
 
@@ -178,7 +239,7 @@ class JobController extends Controller
 
     public function storeWalkin(AddJobWalkinRequest $request, Job $job, Machine $machine)
     {
-        $job = $job->create(array_merge($request->only([
+        $job = $job->create($request->only([
             'name',
             'phone',
             'service_type',
@@ -189,20 +250,13 @@ class JobController extends Controller
             'bleach',
             'fabric_conditioner',
             'is_press',
-            'is_fold'
-            ])), ['status' => 'approved']);
+            'is_fold',
+            'bleach_qty',
+            'detergent_qty',
+            'fabric_conditioner_qty'
+            ]));
 
-        // assign to washer with the least amount of pending
-        
-        $washer = $machine->washer()->withCount('queueWasher')->orderBy('queue_washer_count')->first();
-
-        $job->washer()->associate($washer);
-
-        // assign to dryer with the least amount of pending
-        
-        $dryer = $machine->dryer()->withCount('queueDryer')->orderBy('queue_dryer_count')->first();
-
-        $job->dryer()->associate($dryer);
+        $job->status = 'approved';
 
         $job->save();
 
@@ -217,14 +271,18 @@ class JobController extends Controller
      */
     public function getQueue(Job $job, Machine $machine)
     {
-        $reservations = $job->reservation()->where('status', '!=', 'declined')->get();
+        $reservations = $job->reservation()->orderBy('status', 'asc')->get();
 
-        $pending = $job->pending()->walkin()->get();
+        $pending = $job->approved()->walkin()->get();
+
+        $done = $job->done()->get();
 
         return view('jobs.queue')->with([
-            'machines' => $machine->all(),
+            'washers' => $machine->washer()->get(),
+            'dryers' => $machine->dryer()->get(),
             'reservations' => $reservations,
-            'pendings' => $pending
+            'pendings' => $pending,
+            'done' => $done
             ]);
     }
 }

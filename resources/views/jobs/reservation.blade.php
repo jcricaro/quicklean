@@ -72,6 +72,11 @@
 						</div>
 
 						<div class="form-group">
+							<label for="detergent_qty">Detergent Quantity</label>
+							<input class="form-control" type="text" value="1" placeholder="Detergent Quantity" name="detergent_qty">
+						</div>
+
+						<div class="form-group">
 							<label for="bleach">Bleach</label>
 							<select name="bleach" id="bleach" class="form-control">
 								<option value="colorsafe">Colorsafe</option>
@@ -81,10 +86,21 @@
 						</div>
 
 						<div class="form-group">
+							<label for="detergent_qty">Bleach Quantity</label>
+							<input class="form-control" type="text" value="1" placeholder="Bleach Quantity" name="bleach_qty">
+						</div>
+
+						<div class="form-group">
+							<label for="bleach">Fabric Conditioner</label>
 							<select name="fabric_conditioner" id="fabric_conditioner" class="form-control">
 								<option value="downy">Downy</option>
 								<option value="i_have_one">I have one</option>
 							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="detergent_qty">Fabric Conditioner Quantity</label>
+							<input class="form-control" type="text" value="1" placeholder="Fabric Conditioner Quantity" name="fabric_conditioner_qty">
 						</div>
 
 						<div class="checkbox">

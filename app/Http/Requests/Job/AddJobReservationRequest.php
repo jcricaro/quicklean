@@ -25,8 +25,10 @@ class AddJobReservationRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'phone' => 'required',
-            'reserve_at' => 'required|date'
+            'phone' => 'required|digits:11',
+            'reserve_at' => 'required|date|time|within_week',
+            'detergent_qty' => 'numeric',
+            'fabric_conditioner_qty' => 'numeric|max:8'
         ];
     }
 }

@@ -33,9 +33,13 @@ Route::group(['middleware' => 'auth'], function()
 	Route::put('/jobs/approve/{jobs}', 'JobController@approve');
 	Route::put('/jobs/decline/{jobs}', 'JobController@decline');
 	Route::put('/jobs/done/{jobs}', 'JobController@done');
+	Route::put('/jobs/queue-washer/{jobs}', 'JobController@queueWasher');
+	Route::put('/jobs/queue-dryer/{jobs}','JobController@queueDryer');
 	Route::put('/jobs/cancel/{jobs}', 'JobController@cancel');
+	Route::put('/jobs/paid/{jobs}', 'JobController@paid');
 	Route::resource('/jobs', 'JobController');
 	Route::resource('/machines', 'MachineController');
+	Route::resource('/tips', 'TipController');
 
 	Route::get('/reports', 'ReportController@home');
 });

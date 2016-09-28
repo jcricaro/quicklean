@@ -14,14 +14,14 @@ class MachinesTableSeeder extends Seeder
     {
         Machine::truncate();
 
-        foreach(range(1, 5) as $index) {
+        foreach(range(1, 10) as $index) {
         	Machine::create([
         		'name' => "Washer $index",
         		'type' => 'Washer'
         		]);
         }
 
-        foreach(range(1, 3) as $index) {
+        foreach(range(1, 5) as $index) {
         	Machine::create([
         		'name' => "Dryer $index",
         		'type' => 'Dryer'

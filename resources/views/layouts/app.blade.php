@@ -19,6 +19,7 @@
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+    @yield('head')
 </head>
 <body>
     <nav class="navbar navbar-default navbar-static-top">
@@ -56,6 +57,7 @@
                         
                     </li>
                     <li><a href="{{ url('/machines') }}">Machines</a></li>
+                    <li><a href="{{ url('/tips') }}">Tips</a></li>
                     <li><a href="{{ url('/reports') }}">Reports</a></li>
                     @endif
                 </ul>
@@ -102,9 +104,9 @@
         </div>
     </div>
     @endif
-    @yield('content'
-)
+    @yield('content')
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+    @yield('scripts')
 </body>
 </html>

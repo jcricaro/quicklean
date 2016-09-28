@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Job;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddJobWalkinRequest extends FormRequest
+class AddUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,9 @@ class AddJobWalkinRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'phone' => 'required|digits:11',
-            'bleach_qty' => 'numeric',
-            'detergent_qty' => 'numeric',
-            'fabric_conditioner_qty' => 'numeric|max:8'
+            'email' => 'required|email',
+            'password' => 'required',
+            'name' => 'required'
         ];
     }
 }

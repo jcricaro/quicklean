@@ -33,7 +33,7 @@ class JobsTableSeeder extends Seeder
                 'fabric_conditioner' => $faker->randomElement(['downy', 'i_have_one']),
                 'is_press' => $faker->boolean,
                 'is_fold' => $faker->boolean,
-                'status' => 'pending'
+                'status' => 'approved'
             ]);
         }
 
@@ -50,7 +50,7 @@ class JobsTableSeeder extends Seeder
                 'fabric_conditioner' => $faker->randomElement(['downy', 'i_have_one']),
                 'is_press' => $faker->boolean,
                 'is_fold' => $faker->boolean,
-                'status' => 'pending',
+                'status' => 'reserved',
                 'reserve_at' => Carbon::now()->addMinutes($index * 5)
                 ]);
         }
